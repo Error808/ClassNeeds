@@ -1,5 +1,6 @@
+
 """
-Routes and views for the flask application.
+The flask application package.
 """
 
 from datetime import datetime
