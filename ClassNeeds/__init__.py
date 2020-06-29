@@ -16,7 +16,7 @@ from ClassNeeds import app
 
 import ClassNeeds.config
 
-import psycopg2
+#import psycopg2
 
 
 
@@ -203,27 +203,27 @@ def ClassInfo():
 
 #connecting to the database
 
-try:
-    connection = psycopg2.connect(user = config.user1,
-                                  password = config.pass1,
-                                  host = config.host1,
-                                  port =  config.port1 ,
-                                  database = config.database1)
+#try:
+#    connection = psycopg2.connect(user = config.user1,
+#                                  password = config.pass1,
+#                                  host = config.host1,
+#                                  port =  config.port1 ,
+#                                  database = config.database1)
 
-    cursor = connection.cursor()
-    # print postgresql connection properties
-    print ( connection.get_dsn_parameters(),"\n")
+#    cursor = connection.cursor()
+#    # print postgresql connection properties
+#    print ( connection.get_dsn_parameters(),"\n")
 
-    # print postgresql version
-    cursor.execute("select version();")
-    record = cursor.fetchone()
-    print("you are connected to - ", record,"\n")
+#    # print postgresql version
+#    cursor.execute("select version();")
+#    record = cursor.fetchone()
+#    print("you are connected to - ", record,"\n")
 
-except (exception, psycopg2.error) as error :
-    print ("error while connecting to postgresql", error)
-finally:
-    #closing database connection.
-        if(connection):
-            cursor.close()
-            connection.close()
-            print("postgresql connection is closed")
+#except (exception, psycopg2.error) as error :
+#    print ("error while connecting to postgresql", error)
+#finally:
+#    #closing database connection.
+#        if(connection):
+#            cursor.close()
+#            connection.close()
+#            print("postgresql connection is closed")
