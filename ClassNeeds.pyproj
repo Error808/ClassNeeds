@@ -30,7 +30,6 @@
   <ItemGroup>
     <Compile Include="runserver.py" />
     <Compile Include="ClassNeeds\__init__.py" />
-    <Compile Include="ClassNeeds\views.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ClassNeeds\" />

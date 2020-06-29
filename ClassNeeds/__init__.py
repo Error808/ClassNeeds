@@ -14,6 +14,10 @@ from datetime import datetime
 from flask import render_template,  request, redirect, url_for
 from ClassNeeds import app
 
+import ClassNeeds.config
+
+import psycopg2
+
 
 
 
@@ -196,29 +200,30 @@ def ClassInfo():
 
 
 
-##connecting to the database
-#try:
-#    connection = psycopg2.connect(user = "vmnwaguqhuxhiy",
-#                                  password = 
-#   "9a7a8ca0bf1cff4890d9f56a298ae099d1a22a0fe8b6d423d3895e0902ec97af",
-#                                  host = "ec2-54-175-117-212.compute-1.amazonaws.com",
-#                                  port = "5432",
-#                                  database = "dff5amlfes2k69")
 
-#    cursor = connection.cursor()
-#    # Print PostgreSQL Connection properties
-#    print ( connection.get_dsn_parameters(),"\n")
+#connecting to the database
 
-#    # Print PostgreSQL version
-#    cursor.execute("SELECT version();")
-#    record = cursor.fetchone()
-#    print("You are connected to - ", record,"\n")
+try:
+    connection = psycopg2.connect(user = config.user1,
+                                  password = config.pass1,
+                                  host = config.host1,
+                                  port =  config.port1 ,
+                                  database = config.database1)
 
-#except (Exception, psycopg2.Error) as error :
-#    print ("Error while connecting to PostgreSQL", error)
-#finally:
-#    #closing database connection.
-#        if(connection):
-#            cursor.close()
-#            connection.close()
-#            print("PostgreSQL connection is closed")
+    cursor = connection.cursor()
+    # print postgresql connection properties
+    print ( connection.get_dsn_parameters(),"\n")
+
+    # print postgresql version
+    cursor.execute("select version();")
+    record = cursor.fetchone()
+    print("you are connected to - ", record,"\n")
+
+except (exception, psycopg2.error) as error :
+    print ("error while connecting to postgresql", error)
+finally:
+    #closing database connection.
+        if(connection):
+            cursor.close()
+            connection.close()
+            print("postgresql connection is closed")
