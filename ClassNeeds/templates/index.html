@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="jumbotron">
+<div class="jumbotron bg-warning">
     <h1>ClassNeeds</h1>
     <p class="lead">
         Want to feel prepared and know more about the class that you are going to take next quarter?
@@ -14,22 +14,22 @@
     
 </div>
 
-<div class="row">
+<div class="row text-white ">
     <div class="col-md-4">
         <h2>Classes</h2>
         <p>
             find classes that you are planning to take next quarter.
         </p>
-        <p><a class="btn btn-default" href="{{url_for('Classes')}}">Learn more &raquo;</a></p>
+        <p class=" "><a class="btn btn-default" href="{{url_for('Classes')}}">Learn more &raquo;</a></p>
     </div>
     <div class="col-md-4">
         <h2>Ratings</h2>
         <p>this page will organize classes based on their ratings</p>
-        <p><a class="btn btn-default" href="{{url_for('Ratings')}}">Learn more &raquo;</a></p>
+        <p><a class="btn btn-default " href="{{url_for('Ratings')}}">Learn more &raquo;</a></p>
     </div>
     <div class="col-md-4">
         <h2>About </h2>
-        <p>know more about us sdsdsdsdsdsdsddfdfdfdfdfdfdfdfd
+        <p>know more about us and why did we create this website
         </p>
         <p><a class="btn btn-default" href="{{url_for('About')}}">Learn more &raquo;</a></p>
     </div>
