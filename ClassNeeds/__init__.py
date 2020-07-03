@@ -11,12 +11,31 @@ The flask application package.
 """
 
 from datetime import datetime
-from flask import render_template,  request, redirect, url_for
-from ClassNeeds import app
+from flask import render_template,  request, redirect, url_for, send_file
+from flask_sqlalchemy import SQLAlchemy
+from io import BytesIO
+
+#from ClassNeeds import app
 
 import ClassNeeds.config
 
-#import psycopg2
+
+
+#location of the database
+app.config['SQLALCHEMY_DATABASE_URI'] =  "postgres://vmnwaguqhuxhiy:9a7a8ca0bf1cff4890d9f56a298ae099d1a22a0fe8b6d423d3895e0902ec97af@ec2-54-175-117-212.compute-1.amazonaws.com:5432/dff5amlfes2k69"
+
+db = SQLAlchemy(app)
+
+#table in the database
+class File(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    className = db.Column(db.String(300))
+    name = db.Column(db.String(300))
+    data = db.Column(db.LargeBinary)
+
+
+#creates the table
+db.create_all()
 
 
 
@@ -31,6 +50,13 @@ def classNeeds():
         year=datetime.now().year,
     )
 
+
+
+@app.route('/download/<int:id>', methods=['GET'])
+def download(id):
+    item = File().query.filter_by(id=id).first()
+    return send_file(BytesIO(item.data), as_attachment = True, attachment_filename = item.name)
+
 @app.route('/Classes', methods = ['GET', 'POST'])
 def Classes():
 
@@ -38,117 +64,135 @@ def Classes():
         
         data = request.form['classChoose']
 
+
         if data == "CSE 101":
-            print(data)
+            items = File().query.filter(File.className == data)
             return render_template(
                 'classDetails.html',
                 message = data,
-                title = "title"
+                title = "101",
+                items = items
+             
             )
         elif data == "CSE 102":
-            print(data)
+            items = File().query.filter(File.className == data)
             return render_template(
                 'classDetails.html',
                 message = data,
-                title = "title"
+                title = "102",
+                items = items
             )
         elif data == "CSE 103":
-            print(data)
+            items = File().query.filter(File.className == data)
             return render_template(
                 'classDetails.html',
                 message = data,
-                title = "title"
+                title = "103",
+                items = items
             )
         elif data == "CSE 104":
-            print(data)
+            items = File().query.filter(File.className == data)
             return render_template(
                 'classDetails.html',
                 message = data,
-                title = "title"
+                title = "104",
+                items = items
             )
         elif data == "CSE 120":
-            print(data)
+            items = File().query.filter(File.className == data)
             return render_template(
                 'classDetails.html',
                 message = data,
-                title = "title"
+                title = "120",
+                items = items
             )
         elif data == "CSE 130":
-            print(data)
+            items = File().query.filter(File.className == data)
             return render_template(
                 'classDetails.html',
                 message = data,
-                title = "title"
+                title = "130",
+                items = items
             )
         elif data == "CSE 180":
-            print(data)
+            items = File().query.filter(File.className == data)
             return render_template(
                 'classDetails.html',
                 message = data,
-                title = "title"
+                title = "title",
+                items = items
             )
         elif data == "CSE 181":
-            print(data)
+            items = File().query.filter(File.className == data)
             return render_template(
                 'classDetails.html',
                 message = data,
-                title = "title"
+                title = "title",
+                items = items
             )
         elif data == "CSE 183":
-            print(data)
+            items = File().query.filter(File.className == data)
             return render_template(
                 'classDetails.html',
                 message = data,
-                title = "title"
+                title = "title",
+                items = items
             )
         elif data == "CSE 140":
-            print(data)
+            items = File().query.filter(File.className == data)
             return render_template(
                 'classDetails.html',
                 message = data,
-                title = "title"
+                title = "title",
+                items = items
             )
         elif data == "CSE 144":
-            print(data)
+            items = File().query.filter(File.className == data)
             return render_template(
                 'classDetails.html',
                 message = data,
-                title = "title"
+                title = "title",
+                items = items
             )
         elif data == "CSE 150":
-            print(data)
+            items = File().query.filter(File.className == data)
             return render_template(
                 'classDetails.html',
                 message = data,
-                title = "title"
+                title = "title",
+                items = items
             )
         elif data == "CSE 160":
-            print(data)
+            items = File().query.filter(File.className == data)
             return render_template(
                 'classDetails.html',
                 message = data,
-                title = "title"
+                title = "title",
+                items = items
             )
         elif data == "CSE 111":
-            print(data)
+            items = File().query.filter(File.className == data)
             return render_template(
                 'classDetails.html',
                 message = data,
-                title = "title"
+                title = "title",
+                items = items
             )
         elif data == "CSE 112":
-            print(data)
+            items = File().query.filter(File.className == data)
             return render_template(
                 'classDetails.html',
                 message = data,
-                title = "title"
+                title = "title",
+                items = items
             )
         elif data == "CSE 115":
-            print(data)
+            items = File().query.filter(File.className == data)
             return render_template(
                 'classDetails.html',
                 message = data,
-                title = "title"
+                title = "title",
+                items = items
             )
        
 
@@ -163,7 +207,7 @@ def Classes():
             year=datetime.now().year,
             message='classes should show here'
         )
-    print(data)
+
 
 
 @app.route('/Ratings')
@@ -195,6 +239,26 @@ def ClassInfo():
         
         )
 
+
+
+
+
+@app.route('/upload', methods = ['POST'])
+def upload():
+    file = request.files['inputFile']
+    className = request.form['className']
+
+  
+    newFile = File( className = className, name = file.filename, data = file.read())
+    db.session.add(newFile)
+    db.session.commit();
+
+    return render_template(
+            'classes.html',
+            title='Classes',
+            year=datetime.now().year,
+            message='classes should show here'
+        )
 
 
 
