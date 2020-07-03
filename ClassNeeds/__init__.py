@@ -32,6 +32,7 @@ class File(db.Model):
     className = db.Column(db.String(300))
     name = db.Column(db.String(300))
     data = db.Column(db.LargeBinary)
+    wfile = db.Column(db.String(300))
 
 
 #creates the table
@@ -247,9 +248,10 @@ def ClassInfo():
 def upload():
     file = request.files['inputFile']
     className = request.form['className']
+    wfile = request.form['inlineRadioOptions']
 
   
-    newFile = File( className = className, name = file.filename, data = file.read())
+    newFile = File( wfile = wfile, className = className, name = file.filename, data = file.read())
     db.session.add(newFile)
     db.session.commit();
 
