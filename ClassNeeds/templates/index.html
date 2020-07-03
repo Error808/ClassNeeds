@@ -6,33 +6,33 @@
     <h1>ClassNeeds</h1>
     <p class="lead">
         Want to feel prepared and know more about the class that you are going to take next quarter?
-
+        <br><br>
         This will be a free website that can help with your future classes. Instead of paying for Chegg or CourseHero, you can find most of the important materials such as syllabuses, class notes, documents, teacher's notes, links to pdf books, and more for FREE. You may even upload allowed materials (excluding homework solutions) of your own from previous classes to help the future students. This website will also include the professor's info such as their email address and link to ratemyprofessor.com for each class that they taught.
-
+        <br><br> 
         This is a free website that will help students to prepare or get an idea for their future classes.
     </p>
-    
 </div>
 
-<div class="row text-white ">
-    <div class="col-md-4">
+<div class="row">
+
+    <div class="col-md bg-warning rounded m-3 p-3">
         <h2>Classes</h2>
-        <p>
-            find classes that you are planning to take next quarter.
-        </p>
-        <p class=" "><a class="btn btn-default" href="{{url_for('Classes')}}">Learn more &raquo;</a></p>
+        <p>Find classes that you are planning to take.</p>
+        <a class="btn btn-default border border-dark rounded" href="{{url_for('Classes')}}">Learn more &raquo;</a>
     </div>
-    <div class="col-md-4">
+
+    <div class="col-md bg-warning rounded m-3 p-3">
         <h2>Ratings</h2>
-        <p>this page will organize classes based on their ratings</p>
-        <p><a class="btn btn-default " href="{{url_for('Ratings')}}">Learn more &raquo;</a></p>
+        <p>Take a look at classes based on their ratings.</p>
+        <a class="btn btn-default border border-dark rounded" href="{{url_for('Ratings')}}">Learn more &raquo;</a>
     </div>
-    <div class="col-md-4">
+
+    <div class="col-md bg-warning rounded m-3 p-3">
         <h2>About </h2>
-        <p>know more about us and why did we create this website
-        </p>
-        <p><a class="btn btn-default" href="{{url_for('About')}}">Learn more &raquo;</a></p>
+        <p>Learn more about the creators of ClassNeeds and why we created this website.</p>
+        <a class="btn btn-default border border-dark rounded" href="{{url_for('About')}}">Learn more &raquo;</a>
     </div>
+
 </div>
 
 {% endblock %}

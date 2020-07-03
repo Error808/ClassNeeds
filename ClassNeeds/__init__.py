@@ -246,23 +246,18 @@ def About():
     return render_template(
         'about.html',
         title='About',
-        year=datetime.now().year,
-        message='about us'
+        #message='about us',
+        year=datetime.now().year
     )
-
+    
 @app.route('/ClassInfo')
 def ClassInfo():
     return render_template(
         'classDetails.html',
         message = data,
         title = "title"
-        
-        )
-
-
-
-
-
+    )
+    
 @app.route('/upload', methods = ['POST'])
 def upload():
     file = request.files['inputFile']
