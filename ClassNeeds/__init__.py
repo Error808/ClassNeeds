@@ -68,11 +68,30 @@ def Classes():
 
         if data == "CSE 101":
             items = File().query.filter(File.className == data)
+            notes = []
+            syllabus = []
+            pExams = []
+            pHomeworks = []
+
+            for item in items:
+                if item.wfile == "Notes":
+                    notes.append(item)
+                elif item.wfile == "Syllabus":
+                    syllabus.append(item)
+                elif item.wfile == "Practice Exams":
+                    pExams.append(item)
+                elif item.wfile == "Previous Homeworks":
+                    pHomeworks.append(item)
             return render_template(
                 'classDetails.html',
                 message = data,
                 title = "101",
-                items = items
+                items = items,
+                notes = notes,
+                syllabus = syllabus,
+                pExams = pExams,
+                pHomeworks = pHomeworks
+                
              
             )
         elif data == "CSE 102":
