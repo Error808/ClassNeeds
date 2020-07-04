@@ -231,10 +231,19 @@ def Classes():
 @app.route('/Ratings')
 def Ratings():
     """Renders the Ratings page."""
+    # TODO: replace this with querying the database for every class
+    classes = ["CSE 101", "CSE 102", "CSE 103", "CSE 104"]
+    # TODO: replace this with actuallying finding out the lowest rated and highest rated classes
+    mid = (int)(len(classes)/2)
+    highest_rated_classes = classes[0:mid]
+    lowest_rated_classes = classes[mid:]
+
+    # currently assumes strings are being passed in for classes
     return render_template(
         'ratings.html',
         title='Ratings',
-        #message='ratings of the classes should show here',
+        highest_rated_classes=highest_rated_classes,
+        lowest_rated_classes=lowest_rated_classes,
         year=datetime.now().year
     )
 

@@ -6,14 +6,31 @@
     <h1>Ratings</h1>
 </div>
 
-<div class="row">
+<div class="row text-center">
 
     <div class="col-md bg-warning rounded m-3 p-3">
         <h3>Highest Rated Classes</h3>
+
+        <form action= "/Classes" method="post">
+            {% for item in highest_rated_classes %}
+                <div class="justify-content-center">
+                    <button type="submit" name="classChoose" value="{{ item }}" class="btn btn-warning btn-lg border border-dark rounded m-2"> {{ item }} </button>
+                </div>
+            {% endfor %}
+        </form>
+
     </div>
 
     <div class="col-md bg-warning rounded m-3 p-3">
         <h3>Lowest Rated Classes</h3>
+
+        <form action= "/Classes" method="post">
+            {% for item in lowest_rated_classes %}
+                <div class="justify-content-center">
+                    <button type="submit" name="classChoose" value="{{ item }}" class="btn btn-warning btn-lg border border-dark rounded m-2"> {{ item }} </button>
+                </div>
+            {% endfor %}
+        </form>
     </div>
 
 </div>
