@@ -7,110 +7,90 @@
 <br />
 <br />   
 
-
 <div class="container text-warning text-center">
-
-    <h3> Syllabuses </h3>
+    <h3>Syllabuses</h3>
     <br />
 
+    <ul class="list-group" >
 
-    <ul class=" list-group" >
-
-        {% for item in items %}
-
-        {% if item.wfile == "Syllabus" %}
-        <li class="list-group-item list-group-item-action list-group-item-warning ">
-            <a style=" word-break: break-all " href={{ url_for('download', id = item.id)   }}> {{ item.name }} </a>
-        </li>
+        {% if syllabuses|length < 1 %}
+            <p> Sorry! No syllabuses have been uploaded :( </p>
+        {% else %}
+            {% for item in syllabuses %}
+            <li class="list-group-item list-group-item-action list-group-item-warning ">
+                <a style=" word-break: break-all " href={{ url_for('download', id = item.id)   }}> {{ item.name }} </a>
+            </li>
+            {% endfor %}
         {% endif %}
 
     </ul>
-
-
-    {% else %}
-    <p> sorry, no syllabus was uploaded :( </p>
-    {% endfor %}
 </div>
 
 <br />
 
 <div class="container text-warning text-center">
-
     <h3> Notes </h3>
     <br />
 
+    <ul class="list-group" >
 
-    <ul class=" list-group">
-        {% for item in items %}
-
-        {% if item.wfile == "Notes" %}
-        <li class="list-group-item list-group-item-action list-group-item-warning ">
-            <a style=" word-break: break-all " href={{ url_for('download', id = item.id)   }}> {{ item.name }} </a>
-        </li>
+        {% if notes|length < 1 %}
+            <p> Sorry! No notes have been uploaded :( </p>
+        {% else %}
+            {% for item in notes %}
+            <li class="list-group-item list-group-item-action list-group-item-warning ">
+                <a style=" word-break: break-all " href={{ url_for('download', id = item.id)   }}> {{ item.name }} </a>
+            </li>
+            {% endfor %}
         {% endif %}
+
     </ul>
-
-
-    {% else %}
-    <p> sorry, no note was uploaded :( </p>
-    {% endfor %}
 </div>
-
 
 <br />
 
-
 <div class="container text-warning text-center">
-
     <h3> Practice Exams </h3>
     <br />
 
-    <ul class=" list-group">
+    <ul class="list-group" >
 
-        {% for item in items %}
-
-        {% if item.wfile == "Practice Exams" %}
-        <li class="list-group-item list-group-item-action list-group-item-warning ">
-            <a style=" word-break: break-all " href={{ url_for('download', id = item.id)   }}> {{ item.name }} </a>
-        </li>
+        {% if pExams|length < 1 %}
+            <p> Sorry! No practice exams have been uploaded :( </p>
+        {% else %}
+            {% for item in pExams %}
+            <li class="list-group-item list-group-item-action list-group-item-warning ">
+                <a style=" word-break: break-all " href={{ url_for('download', id = item.id)   }}> {{ item.name }} </a>
+            </li>
+            {% endfor %}
         {% endif %}
+
     </ul>
-
-
-    {% else %}
-    <p> sorry, no Practice exam was uploaded :( </p>
-    {% endfor %}
 </div>
 
 <br />
 
 <div class="container text-warning text-center">
-
     <h3> Previous Homeworks </h3>
     <br />
 
+    <ul class="list-group" >
 
-    <ul class=" list-group">
-        {% for item in items %}
-
-        {% if item.wfile == "Previous Homeworks" %}
-        <li class="list-group-item list-group-item-action list-group-item-warning ">
-            <a style=" word-break: break-all " href={{ url_for('download', id = item.id)   }}> {{ item.name }} </a>
-        </li>
+        {% if pHomeworks|length < 1 %}
+            <p> Sorry! No practice exams have been uploaded :( </p>
+        {% else %}
+            {% for item in pHomeworks %}
+            <li class="list-group-item list-group-item-action list-group-item-warning ">
+                <a style=" word-break: break-all " href={{ url_for('download', id = item.id)   }}> {{ item.name }} </a>
+            </li>
+            {% endfor %}
         {% endif %}
+
     </ul>
-
-
-    {% else %}
-    <p> sorry, no exam was uploaded :( </p>
-    {% endfor %}
 </div>
 
 <br />
 <br />
-
-
-
 
 <div class="container text-warning text-center">
     
@@ -147,10 +127,5 @@
     </form>
 
 </div>
-
-
-
-
-
 
  {% endblock %}

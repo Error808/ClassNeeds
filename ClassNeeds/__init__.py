@@ -65,11 +65,10 @@ def Classes():
         
         data = request.form['classChoose']
 
-
         if data == "CSE 101":
             items = File().query.filter(File.className == data)
             notes = []
-            syllabus = []
+            syllabuses = []
             pExams = []
             pHomeworks = []
 
@@ -77,23 +76,22 @@ def Classes():
                 if item.wfile == "Notes":
                     notes.append(item)
                 elif item.wfile == "Syllabus":
-                    syllabus.append(item)
+                    syllabuses.append(item)
                 elif item.wfile == "Practice Exams":
                     pExams.append(item)
                 elif item.wfile == "Previous Homeworks":
                     pHomeworks.append(item)
-            return render_template(
+            
+            template = render_template(
                 'classDetails.html',
                 message = data,
                 title = "101",
-                items = items,
                 notes = notes,
-                syllabus = syllabus,
+                syllabuses = syllabuses,
                 pExams = pExams,
                 pHomeworks = pHomeworks
-                
-             
             )
+            return template
         elif data == "CSE 102":
             items = File().query.filter(File.className == data)
             return render_template(
@@ -249,7 +247,8 @@ def About():
         #message='about us',
         year=datetime.now().year
     )
-    
+
+'''
 @app.route('/ClassInfo')
 def ClassInfo():
     return render_template(
@@ -257,6 +256,7 @@ def ClassInfo():
         message = data,
         title = "title"
     )
+'''
     
 @app.route('/upload', methods = ['POST'])
 def upload():
