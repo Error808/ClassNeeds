@@ -2,19 +2,20 @@
 
 {% block content %}
 
-<h2>{{ title }}.</h2>
-<h3>{{ message }}</h3>
+<div class="jumbotron bg-warning text-center">
+    <h1>Ratings</h1>
+</div>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+<div class="row">
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+    <div class="col-md bg-warning rounded m-3 p-3">
+        <h3>Highest Rated Classes</h3>
+    </div>
+
+    <div class="col-md bg-warning rounded m-3 p-3">
+        <h3>Lowest Rated Classes</h3>
+    </div>
+
+</div>
 
 {% endblock %}

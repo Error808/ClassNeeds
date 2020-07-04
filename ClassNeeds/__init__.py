@@ -232,17 +232,17 @@ def Classes():
 
 @app.route('/Ratings')
 def Ratings():
-    """Renders the contact page."""
+    """Renders the Ratings page."""
     return render_template(
         'ratings.html',
         title='Ratings',
-        year=datetime.now().year,
-        message='ratings of the classes should show here'
+        #message='ratings of the classes should show here',
+        year=datetime.now().year
     )
 
 @app.route('/About')
 def About():
-    """Renders the contact page."""
+    """Renders the About page."""
     return render_template(
         'about.html',
         title='About',
