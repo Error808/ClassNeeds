@@ -522,15 +522,21 @@ def About():
     )
 
 
-@app.route('/SignIn')
+@app.route('/SignIn' , methods = ['GET', 'POST'])
 def SignIn():
-    """Renders the About page."""
-    return render_template(
+    if request.method == 'POST':
+        user = request.form['user']
+        passW = request.form['passW']
+        return passW
+
+    else:
+        return render_template(
         'signIn.html',
         title='signIn',
         #message='about us',
         year=datetime.now().year
     )
+    
 
     
 @app.route('/upload', methods = ['POST'])
