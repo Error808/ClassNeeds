@@ -10,9 +10,6 @@
 
 <body style="background-color: #003c6c">
 
-
-
-
     <div class="fluid-container">
 
 
@@ -37,17 +34,21 @@
     
 
     <div class="container-fluid body-content">
-        {% with messages = get_flashed_messages() %}
 
-        {% if messages %}
+    
+            {% with messages = get_flashed_messages() %}
 
-        <div class="alert alert-warning" role="alert">
-            {{ messages[0] }}
-        </div>
+                {% if messages %}
 
-        {% endif %}
+                <div class="alert alert-warning" role="alert">
+                    {{ messages[0] }}
+                </div>
 
-        {% endwith %}
+                {% endif %}
+
+            {% endwith %}
+
+    
         {% block content %}{% endblock %}
         <hr />
         <footer>
