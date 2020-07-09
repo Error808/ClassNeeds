@@ -555,11 +555,6 @@ def SignIn():
         year=datetime.now().year
     )
 
-<<<<<<< Updated upstream
- 
-=======
->>>>>>> Stashed changes
-    
 @app.route('/SignUp' , methods = ['GET', 'POST'])
 def SignUp():
     if request.method == 'POST':
