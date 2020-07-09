@@ -6,6 +6,18 @@
 
 
     <div class="container w-25">
+
+        {% with messages = get_flashed_messages() %}
+        
+        {% if messages %}
+        
+        <div class="text-warning" role="alert">
+            {{ messages[0] }}
+        </div>
+        
+        {% endif %}
+        
+        {% endwith %}
         <form action="/SignIn" method="post">
             <div class="form-group">
                 <input type="email" class="form-control" name="user" aria-describedby="emailHelp" placeholder="Enter email" required>
@@ -15,6 +27,10 @@
             </div>
             <button type="submit" class="btn btn-warning">Submit</button>
         </form>
+        <p class="lead">
+            <a class="btn btn-link" href="SignUp" role="button">No Account?</a>
+        </p> 
+
     </div>
 
 {% endblock %}

@@ -4,14 +4,14 @@ The flask application package.
 
 from flask import Flask
 app = Flask(__name__)
-
+app.secret_key = "super secret key"
 
 """
 The flask application package.
 """
-
+from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
-from flask import render_template,  request, redirect, url_for, send_file
+from flask import render_template,  request, redirect, url_for, send_file, Blueprint, flash
 from flask_sqlalchemy import SQLAlchemy
 from io import BytesIO
 
@@ -33,6 +33,15 @@ class File(db.Model):
     name = db.Column(db.String(300))
     data = db.Column(db.LargeBinary)
     wfile = db.Column(db.String(300))
+
+# table for sign up 
+class User(db.Model):
+    __tablename__='USERS'
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(80), unique=True)
+    password = db.Column(db.String(120))
+
+
 
 
 #creates the table
@@ -527,19 +536,54 @@ def SignIn():
     if request.method == 'POST':
         user = request.form['user']
         passW = request.form['passW']
-        return passW
+        remember = True if request.form.get('remember') else False
+
+        user = User.query.filter_by(email=user).first()
+
+        if not user or not check_password_hash(user.password, passW):
+            print('fail')
+            flash('Please check your login details and try again.')
+            return redirect(url_for('SignIn')) 
+
+        # return redirect(url_for('profile'))
+        return ('welcome!')
 
     else:
         return render_template(
         'signIn.html',
         title='signIn',
-        #message='about us',
         year=datetime.now().year
     )
 
+<<<<<<< Updated upstream
  
+=======
+>>>>>>> Stashed changes
     
+@app.route('/SignUp' , methods = ['GET', 'POST'])
+def SignUp():
+    if request.method == 'POST':
+        email = request.form.get('user')
+        password = request.form.get('passW')
+        user = User.query.filter_by(email = email).first()
+        print (user)
 
+        if user:
+            flash('Email address already exists, please try again !')
+            print('good')
+            return redirect(url_for('SignUp'))
+        new_user = User(email=email, password=generate_password_hash(password, method='sha256'))
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect(url_for('SignIn'))
+
+    else:
+        return render_template(
+        'signUp.html',
+        title='signUp',
+        year=datetime.now().year
+    )
+    
     
 @app.route('/upload', methods = ['POST'])
 def upload():
@@ -550,7 +594,7 @@ def upload():
   
     newFile = File( wfile = wfile, className = className, name = file.filename, data = file.read())
     db.session.add(newFile)
-    db.session.commit();
+    db.session.commit()
 
     return render_template(
             'classes.html',
