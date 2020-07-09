@@ -12,7 +12,7 @@ The flask application package.
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
-from flask import render_template,  request, redirect, url_for, send_file,  flash
+from flask import render_template,  request, redirect, url_for, send_file, flash
 from flask_sqlalchemy import SQLAlchemy
 from io import BytesIO
 from flask_login import LoginManager, UserMixin, login_user,login_required, logout_user, current_user
@@ -67,6 +67,7 @@ def SignUp():
         new_user = Users(email=email, password=generate_password_hash(password, method='sha256'))
         db.session.add(new_user)
         db.session.commit()
+        flash('Signed up successfully, please sign in.')
         return redirect(url_for('SignIn'))
 
     else:
@@ -91,6 +92,7 @@ def SignIn():
 
         # return redirect(url_for('profile'))
         login_user(user)
+        flash('Signed in successfully.')
         return redirect(url_for('classNeeds'))
 
     else:
@@ -100,10 +102,11 @@ def SignIn():
         year=datetime.now().year
     )
 
-@app.route('/Logout')
+@app.route('/SignOut')
 @login_required
 def Logout():
     logout_user()
+    flash('signed out.')
     return redirect(url_for('classNeeds'))
 
 

@@ -8,8 +8,11 @@
    
 </head>
 
-<body  style = "background-color: #003c6c">
-   
+<body style="background-color: #003c6c">
+
+
+
+
     <div class="fluid-container">
 
 
@@ -24,16 +27,27 @@
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('Ratings') }}">Ratings</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('About') }}">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('SignIn') }}">Sign In/Sign Up</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('Logout') }}">Logout</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('Logout') }}">Sign out</a></li>
 
                 </ul>
             </div>
         </nav>
 
     </div>
-
+    
 
     <div class="container-fluid body-content">
+        {% with messages = get_flashed_messages() %}
+
+        {% if messages %}
+
+        <div class="alert alert-warning" role="alert">
+            {{ messages[0] }}
+        </div>
+
+        {% endif %}
+
+        {% endwith %}
         {% block content %}{% endblock %}
         <hr />
         <footer>
