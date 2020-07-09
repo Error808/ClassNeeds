@@ -50,7 +50,7 @@ db.create_all()
 
 
 @app.route('/')
-@app.route('/home')
+@app.route('/classneeds')
 def classNeeds():
     """Renders the home page."""
     return render_template(
@@ -61,8 +61,8 @@ def classNeeds():
 
 
 
-@app.route('/download/<int:id>', methods=['GET'])
-def download(id):
+@app.route('/Download/<int:id>', methods=['GET'])
+def Download(id):
     item = File().query.filter_by(id=id).first()
     return send_file(BytesIO(item.data), as_attachment = True, attachment_filename = item.name)
 
@@ -540,12 +540,11 @@ def SignIn():
         user = Users.query.filter_by(email=user).first()
 
         if not user or not check_password_hash(user.password, passW):
-            print('fail')
-            flash('Please check your login details and try again.')
+            flash('Email address or password is incorrect.')
             return redirect(url_for('SignIn')) 
 
         # return redirect(url_for('profile'))
-        return ('welcome!')
+        return redirect(url_for('classNeeds'))
 
     else:
         return render_template(
@@ -560,11 +559,9 @@ def SignUp():
         email = request.form.get('user')
         password = request.form.get('passW')
         user = Users.query.filter_by(email = email).first()
-        print (user)
 
         if user:
-            flash('Email address already exists, please try again !')
-            print('good')
+            flash('This email address already exists!')
             return redirect(url_for('SignUp'))
         new_user = Users(email=email, password=generate_password_hash(password, method='sha256'))
         db.session.add(new_user)
@@ -579,8 +576,8 @@ def SignUp():
     )
     
     
-@app.route('/upload', methods = ['POST'])
-def upload():
+@app.route('/Upload', methods = ['POST'])
+def Upload():
     file = request.files['inputFile']
     className = request.form['className']
     wfile = request.form['inlineRadioOptions']

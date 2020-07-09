@@ -18,7 +18,7 @@
         {% else %}
             {% for item in syllabuses %}
             <li class="list-group-item list-group-item-action list-group-item-warning ">
-                <a style=" word-break: break-all " href={{ url_for('download', id = item.id)   }}> {{ item.name }} </a>
+                <a style=" word-break: break-all " href={{ url_for('Download', id = item.id)   }}> {{ item.name }} </a>
             </li>
             {% endfor %}
         {% endif %}
@@ -39,7 +39,7 @@
         {% else %}
             {% for item in notes %}
             <li class="list-group-item list-group-item-action list-group-item-warning ">
-                <a style=" word-break: break-all " href={{ url_for('download', id = item.id)   }}> {{ item.name }} </a>
+                <a style=" word-break: break-all " href={{ url_for('Download', id = item.id)   }}> {{ item.name }} </a>
             </li>
             {% endfor %}
         {% endif %}
@@ -60,7 +60,7 @@
         {% else %}
             {% for item in pExams %}
             <li class="list-group-item list-group-item-action list-group-item-warning ">
-                <a style=" word-break: break-all " href={{ url_for('download', id = item.id)   }}> {{ item.name }} </a>
+                <a style=" word-break: break-all " href={{ url_for('Download', id = item.id)   }}> {{ item.name }} </a>
             </li>
             {% endfor %}
         {% endif %}
@@ -81,7 +81,7 @@
         {% else %}
             {% for item in pHomeworks %}
             <li class="list-group-item list-group-item-action list-group-item-warning ">
-                <a style=" word-break: break-all " href={{ url_for('download', id = item.id)   }}> {{ item.name }} </a>
+                <a style=" word-break: break-all " href={{ url_for('Download', id = item.id)   }}> {{ item.name }} </a>
             </li>
             {% endfor %}
         {% endif %}
@@ -94,7 +94,7 @@
 
 <div class="container text-warning text-center">
     
-    <form action="/upload" method="post" enctype="multipart/form-data">
+    <form action="/Upload" method="post" enctype="multipart/form-data">
 
         <h3> Upload Files </h3>
         <br />
