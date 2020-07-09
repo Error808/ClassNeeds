@@ -73,12 +73,15 @@ def SignUp():
     else:
         return render_template(
         'signUp.html',
-        title='signUp',
+        title='SignUp',
         year=datetime.now().year
     )
 
 @app.route('/SignIn' , methods = ['GET', 'POST'])
 def SignIn():
+    if current_user.is_authenticated:
+        flash('You are already signed in!')
+        return redirect (url_for('ClassNeeds'))
     if request.method == 'POST':
         user = request.form['user']
         passW = request.form['passW']
@@ -93,28 +96,30 @@ def SignIn():
         # return redirect(url_for('profile'))
         login_user(user)
         flash('Signed in successfully.')
-        return redirect(url_for('classNeeds'))
+        return redirect(url_for('ClassNeeds'))
 
     else:
         return render_template(
         'signIn.html',
-        title='signIn',
+        title='SignIn',
         year=datetime.now().year
     )
 
 @app.route('/SignOut')
-@login_required
-def Logout():
+def SignOut():
+    if current_user.is_anonymous:
+        flash('You are not signed in!')
+        return redirect (url_for('SignUp'))
     logout_user()
-    flash('signed out.')
-    return redirect(url_for('classNeeds'))
+    flash('You signed out successfully.')
+    return redirect(url_for('ClassNeeds'))
 
 
 
 
 @app.route('/')
-@app.route('/classNeeds')
-def classNeeds():
+@app.route('/ClassNeeds')
+def ClassNeeds():
     """Renders the home page."""
     return render_template(
         'index.html',
@@ -130,8 +135,11 @@ def Download(id):
     return send_file(BytesIO(item.data), as_attachment = True, attachment_filename = item.name)
 
 @app.route('/Classes', methods = ['GET', 'POST'])
-@login_required
 def Classes():
+
+    if current_user.is_anonymous:
+        flash('Please sign in or sign up first :)')
+        return redirect (url_for('ClassNeeds'))
 
     if request.method == 'POST':
         
@@ -559,6 +567,7 @@ def Classes():
     elif request.method == 'GET':
         return render_template(
             'classes.html',
+            title='Classes',
             year=datetime.now().year,
             message='classes should show here'
         )
@@ -566,8 +575,10 @@ def Classes():
 
 
 @app.route('/Ratings')
-@login_required
 def Ratings():
+    if current_user.is_anonymous:
+        flash('Please sign in or sign up first :)')
+        return redirect (url_for('ClassNeeds'))
     """Renders the Ratings page."""
     # TODO: replace this with querying the database for every class
     classes = ["CSE 101", "CSE 102", "CSE 103", "CSE 104"]
@@ -579,6 +590,7 @@ def Ratings():
     # currently assumes strings are being passed in for classes
     return render_template(
         'ratings.html',
+        title='Ratings',
         highest_rated_classes=highest_rated_classes,
         lowest_rated_classes=lowest_rated_classes,
         year=datetime.now().year
@@ -589,14 +601,10 @@ def About():
     """Renders the About page."""
     return render_template(
         'about.html',
+        title='About',
         year=datetime.now().year
     )
 
-
-
-
-    
-    
 @app.route('/Upload', methods = ['POST'])
 def Upload():
     file = request.files['inputFile']
