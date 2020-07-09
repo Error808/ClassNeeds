@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <h1 class="text-center m-5 text-warning">Sign Up</h1>
+
+
+    <div class="container w-25">
+        
+        {% with messages = get_flashed_messages() %}
+        
+        {% if messages %}
+        
+        <div class="text-warning" role="alert">
+            {{ messages[0] }}
+        </div>
+        
+        {% endif %}
+        
+        {% endwith %}
+        
+        <form action="/SignUp" method="post">
+            <div class="form-group">
+                <input type="email" class="form-control" name="user" aria-describedby="emailHelp" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" name="passW" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-warning">Sign Up</button>
+            Go to <a href="{{ url_for('SignIn') }}">login page</a>
+        </form>
+    </div>
+
+{% endblock %}
