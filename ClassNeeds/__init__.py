@@ -9,11 +9,13 @@ app.secret_key = "super secret key"
 """
 The flask application package.
 """
+
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
-from flask import render_template,  request, redirect, url_for, send_file, Blueprint, flash
+from flask import render_template,  request, redirect, url_for, send_file,  flash
 from flask_sqlalchemy import SQLAlchemy
 from io import BytesIO
+from flask_login import LoginManager, UserMixin, login_user,login_required, logout_user, current_user
 
 #from ClassNeeds import app
 
@@ -26,6 +28,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] =  "postgres://vmnwaguqhuxhiy:9a7a8ca0bf1c
 
 db = SQLAlchemy(app)
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+
 #table in the database
 class File(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -35,22 +40,77 @@ class File(db.Model):
     wfile = db.Column(db.String(300))
 
 # table for sign up 
-class Users(db.Model):
+class Users(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(80), unique=True)
     password = db.Column(db.String(120))
-
-
 
 
 #creates the table
 db.create_all()
 
 
+@login_manager.user_loader
+def load_user(user_id):
+    return Users.query.get(int(user_id))
+
+@app.route('/SignUp' , methods = ['GET', 'POST'])
+def SignUp():
+    if request.method == 'POST':
+        email = request.form.get('user')
+        password = request.form.get('passW')
+        user = Users.query.filter_by(email = email).first()
+
+        if user:
+            flash('This email address already exists!')
+            return redirect(url_for('SignUp'))
+        new_user = Users(email=email, password=generate_password_hash(password, method='sha256'))
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect(url_for('SignIn'))
+
+    else:
+        return render_template(
+        'signUp.html',
+        title='signUp',
+        year=datetime.now().year
+    )
+
+@app.route('/SignIn' , methods = ['GET', 'POST'])
+def SignIn():
+    if request.method == 'POST':
+        user = request.form['user']
+        passW = request.form['passW']
+        remember = True if request.form.get('remember') else False
+
+        user = Users.query.filter_by(email=user).first()
+
+        if not user or not check_password_hash(user.password, passW):
+            flash('Email address or password is incorrect.')
+            return redirect(url_for('SignIn')) 
+
+        # return redirect(url_for('profile'))
+        login_user(user)
+        return redirect(url_for('classNeeds'))
+
+    else:
+        return render_template(
+        'signIn.html',
+        title='signIn',
+        year=datetime.now().year
+    )
+
+@app.route('/Logout')
+@login_required
+def Logout():
+    logout_user()
+    return redirect(url_for('classNeeds'))
+
+
 
 
 @app.route('/')
-@app.route('/classneeds')
+@app.route('/classNeeds')
 def classNeeds():
     """Renders the home page."""
     return render_template(
@@ -67,6 +127,7 @@ def Download(id):
     return send_file(BytesIO(item.data), as_attachment = True, attachment_filename = item.name)
 
 @app.route('/Classes', methods = ['GET', 'POST'])
+@login_required
 def Classes():
 
     if request.method == 'POST':
@@ -492,8 +553,6 @@ def Classes():
        
 
  
-
- 
     elif request.method == 'GET':
         return render_template(
             'classes.html',
@@ -504,6 +563,7 @@ def Classes():
 
 
 @app.route('/Ratings')
+@login_required
 def Ratings():
     """Renders the Ratings page."""
     # TODO: replace this with querying the database for every class
@@ -530,50 +590,8 @@ def About():
     )
 
 
-@app.route('/SignIn' , methods = ['GET', 'POST'])
-def SignIn():
-    if request.method == 'POST':
-        user = request.form['user']
-        passW = request.form['passW']
-        remember = True if request.form.get('remember') else False
 
-        user = Users.query.filter_by(email=user).first()
 
-        if not user or not check_password_hash(user.password, passW):
-            flash('Email address or password is incorrect.')
-            return redirect(url_for('SignIn')) 
-
-        # return redirect(url_for('profile'))
-        return redirect(url_for('classNeeds'))
-
-    else:
-        return render_template(
-        'signIn.html',
-        title='signIn',
-        year=datetime.now().year
-    )
-
-@app.route('/SignUp' , methods = ['GET', 'POST'])
-def SignUp():
-    if request.method == 'POST':
-        email = request.form.get('user')
-        password = request.form.get('passW')
-        user = Users.query.filter_by(email = email).first()
-
-        if user:
-            flash('This email address already exists!')
-            return redirect(url_for('SignUp'))
-        new_user = Users(email=email, password=generate_password_hash(password, method='sha256'))
-        db.session.add(new_user)
-        db.session.commit()
-        return redirect(url_for('SignIn'))
-
-    else:
-        return render_template(
-        'signUp.html',
-        title='signUp',
-        year=datetime.now().year
-    )
     
     
 @app.route('/Upload', methods = ['POST'])
