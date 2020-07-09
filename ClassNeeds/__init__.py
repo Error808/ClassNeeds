@@ -35,8 +35,7 @@ class File(db.Model):
     wfile = db.Column(db.String(300))
 
 # table for sign up 
-class User(db.Model):
-    __tablename__='USERS'
+class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(80), unique=True)
     password = db.Column(db.String(120))
@@ -538,7 +537,7 @@ def SignIn():
         passW = request.form['passW']
         remember = True if request.form.get('remember') else False
 
-        user = User.query.filter_by(email=user).first()
+        user = Users.query.filter_by(email=user).first()
 
         if not user or not check_password_hash(user.password, passW):
             print('fail')
@@ -560,14 +559,14 @@ def SignUp():
     if request.method == 'POST':
         email = request.form.get('user')
         password = request.form.get('passW')
-        user = User.query.filter_by(email = email).first()
+        user = Users.query.filter_by(email = email).first()
         print (user)
 
         if user:
             flash('Email address already exists, please try again !')
             print('good')
             return redirect(url_for('SignUp'))
-        new_user = User(email=email, password=generate_password_hash(password, method='sha256'))
+        new_user = Users(email=email, password=generate_password_hash(password, method='sha256'))
         db.session.add(new_user)
         db.session.commit()
         return redirect(url_for('SignIn'))
