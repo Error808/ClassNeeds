@@ -45,6 +45,11 @@ class Users(UserMixin, db.Model):
     email = db.Column(db.String(80), unique=True)
     password = db.Column(db.String(120))
 
+# table for reviews
+class Ratings(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    className = db.Column(db.String(300))
+    rating = db.Column(db.Integer)
 
 #creates the table
 db.create_all()
