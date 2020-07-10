@@ -7,118 +7,86 @@
 <br />
 <br />   
 
-<div class="container">
-    <div class="row">
-        <div class="col-sm-5 text-warning text-center">
-            <h3>Syllabuses</h3>
-            <br />
+<div class="container text-warning text-center">
+    <h3>Syllabuses</h3>
+    <br />
 
-            <ul class="list-group" >
+    <ul class="list-group" >
 
-                {% if syllabuses|length < 1 %}
-                    <p> Sorry! No syllabuses have been uploaded :( </p>
-                {% else %}
-                    {% for item in syllabuses %}
-                    <li class="list-group-item list-group-item-action list-group-item-warning ">
-                        <a style=" word-break: break-all " href={{ url_for('Download', id = item.id)   }}> {{ item.name }} </a>
-                    </li>
-                    {% endfor %}
-                {% endif %}
+        {% if syllabuses|length < 1 %}
+            <p> Sorry! No syllabuses have been uploaded :( </p>
+        {% else %}
+            {% for item in syllabuses %}
+            <li class="list-group-item list-group-item-action list-group-item-warning ">
+                <a style=" word-break: break-all " href={{ url_for('Download', id = item.id)   }}> {{ item.name }} </a>
+            </li>
+            {% endfor %}
+        {% endif %}
 
-            </ul>
-            <br />
+    </ul>
+</div>
 
-            <h3> Notes </h3>
-            <br />
+<br />
 
-            <ul class="list-group" >
+<div class="container text-warning text-center">
+    <h3> Notes </h3>
+    <br />
 
-                {% if notes|length < 1 %}
-                    <p> Sorry! No notes have been uploaded :( </p>
-                {% else %}
-                    {% for item in notes %}
-                    <li class="list-group-item list-group-item-action list-group-item-warning ">
-                        <a style=" word-break: break-all " href={{ url_for('Download', id = item.id)   }}> {{ item.name }} </a>
-                    </li>
-                    {% endfor %}
-                {% endif %}
+    <ul class="list-group" >
 
-            </ul>
-            <br />
+        {% if notes|length < 1 %}
+            <p> Sorry! No notes have been uploaded :( </p>
+        {% else %}
+            {% for item in notes %}
+            <li class="list-group-item list-group-item-action list-group-item-warning ">
+                <a style=" word-break: break-all " href={{ url_for('Download', id = item.id)   }}> {{ item.name }} </a>
+            </li>
+            {% endfor %}
+        {% endif %}
 
-            <h3> Practice Exams </h3>
-            <br />
+    </ul>
+</div>
 
-            <ul class="list-group" >
+<br />
 
-                {% if pExams|length < 1 %}
-                    <p> Sorry! No practice exams have been uploaded :( </p>
-                {% else %}
-                    {% for item in pExams %}
-                    <li class="list-group-item list-group-item-action list-group-item-warning ">
-                        <a style=" word-break: break-all " href={{ url_for('Download', id = item.id)   }}> {{ item.name }} </a>
-                    </li>
-                    {% endfor %}
-                {% endif %}
+<div class="container text-warning text-center">
+    <h3> Practice Exams </h3>
+    <br />
 
-            </ul>
-            <br />
+    <ul class="list-group" >
 
-            <h3> Previous Homeworks </h3>
-            <br />
+        {% if pExams|length < 1 %}
+            <p> Sorry! No practice exams have been uploaded :( </p>
+        {% else %}
+            {% for item in pExams %}
+            <li class="list-group-item list-group-item-action list-group-item-warning ">
+                <a style=" word-break: break-all " href={{ url_for('Download', id = item.id)   }}> {{ item.name }} </a>
+            </li>
+            {% endfor %}
+        {% endif %}
 
-            <ul class="list-group" >
+    </ul>
+</div>
 
-                {% if pHomeworks|length < 1 %}
-                    <p> Sorry! No practice exams have been uploaded :( </p>
-                {% else %}
-                    {% for item in pHomeworks %}
-                    <li class="list-group-item list-group-item-action list-group-item-warning ">
-                        <a style=" word-break: break-all " href={{ url_for('Download', id = item.id)   }}> {{ item.name }} </a>
-                    </li>
-                    {% endfor %}
-                {% endif %}
+<br />
 
-            </ul>
+<div class="container text-warning text-center">
+    <h3> Previous Homeworks </h3>
+    <br />
 
-        </div>
+    <ul class="list-group" >
 
-        <div class="col-sm-2"></div>
+        {% if pHomeworks|length < 1 %}
+            <p> Sorry! No practice exams have been uploaded :( </p>
+        {% else %}
+            {% for item in pHomeworks %}
+            <li class="list-group-item list-group-item-action list-group-item-warning ">
+                <a style=" word-break: break-all " href={{ url_for('Download', id = item.id)   }}> {{ item.name }} </a>
+            </li>
+            {% endfor %}
+        {% endif %}
 
-        <div class="col-sm-5 text-warning text-center">
-            <h3>Class Details:</h3>
-            <br />
-            
-            <p>Course Description: Introduction to abstract data types and basics of algorithms. Linked lists, stacks, queues, hash tables, trees, heaps, and graphs will be covered. 
-                Students will also be taught how to derive big-Oh analysis of simple algorithms. All assignments will be in C/C++. 
-                (Formerly Computer Science 101 Algorithms and Abstract Data Types.)
-            </p>
-
-            <p>Previously Taught By: Patrick Tantalo, Manfred Warmuth, Allen Van Gelder, David Helmbold, Seshadhri Comandur</p>
-
-            <p>Quarters Offered: Fall, Winter, Spring, Summer</p>
-
-            <p>Units: 5 Lab: </p>
-
-            <h3>Comments: </h3>
-            <br />
-           
-            <input type="comment" class="form-control" id="commentInput" placeholder="Write comment here">
-            <br />
-           
-            <button type="submit" class="btn btn-warning">Submit</button>
-            <br />
-
-            <p>Comments will go here "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit 
-                 in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt 
-                 mollit anim id est laborum."
-            </p>
-
-
-        </div>
-        
-    </div>
+    </ul>
 </div>
 
 <br />
@@ -160,4 +128,4 @@
 
 </div>
 
-{% endblock %}
+ {% endblock %}
