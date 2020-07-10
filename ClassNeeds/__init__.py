@@ -109,7 +109,7 @@ def SignIn():
 def SignOut():
     if current_user.is_anonymous:
         flash('You are not signed in!')
-        return redirect (url_for('SignUp'))
+        return redirect (url_for('SignIn'))
     logout_user()
     flash('You signed out successfully.')
     return redirect(url_for('ClassNeeds'))
