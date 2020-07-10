@@ -150,7 +150,9 @@ def Classes():
         
         data = request.form['classChoose']
 
-        if data == "CSE 101":
+        classes = getClasses() # helper function below
+        
+        if data in classes:
             items = File().query.filter(File.className == data)
             notes = []
             syllabuses = []
@@ -170,404 +172,15 @@ def Classes():
             return render_template(
                 'classDetails.html',
                 message = data,
-                title = "101",
+                title = data,
                 notes = notes,
                 syllabuses = syllabuses,
                 pExams = pExams,
                 pHomeworks = pHomeworks
             )
-        elif data == "CSE 102":
-            items = File().query.filter(File.className == data)
-            notes = []
-            syllabuses = []
-            pExams = []
-            pHomeworks = []
-
-            for item in items:
-                if item.wfile == "Notes":
-                    notes.append(item)
-                elif item.wfile == "Syllabus":
-                    syllabuses.append(item)
-                elif item.wfile == "Practice Exams":
-                    pExams.append(item)
-                elif item.wfile == "Previous Homeworks":
-                    pHomeworks.append(item)
-            
-            return render_template(
-                'classDetails.html',
-                message = data,
-                title = "102",
-                notes = notes,
-                syllabuses = syllabuses,
-                pExams = pExams,
-                pHomeworks = pHomeworks
-            )
-        elif data == "CSE 103":
-            items = File().query.filter(File.className == data)
-            notes = []
-            syllabuses = []
-            pExams = []
-            pHomeworks = []
-
-            for item in items:
-                if item.wfile == "Notes":
-                    notes.append(item)
-                elif item.wfile == "Syllabus":
-                    syllabuses.append(item)
-                elif item.wfile == "Practice Exams":
-                    pExams.append(item)
-                elif item.wfile == "Previous Homeworks":
-                    pHomeworks.append(item)
-            
-            return render_template(
-                'classDetails.html',
-                message = data,
-                title = "103",
-                notes = notes,
-                syllabuses = syllabuses,
-                pExams = pExams,
-                pHomeworks = pHomeworks
-            )
-        elif data == "CSE 104":
-            items = File().query.filter(File.className == data)
-            notes = []
-            syllabuses = []
-            pExams = []
-            pHomeworks = []
-
-            for item in items:
-                if item.wfile == "Notes":
-                    notes.append(item)
-                elif item.wfile == "Syllabus":
-                    syllabuses.append(item)
-                elif item.wfile == "Practice Exams":
-                    pExams.append(item)
-                elif item.wfile == "Previous Homeworks":
-                    pHomeworks.append(item)
-            
-            return render_template(
-                'classDetails.html',
-                message = data,
-                title = "104",
-                notes = notes,
-                syllabuses = syllabuses,
-                pExams = pExams,
-                pHomeworks = pHomeworks
-            )
-        elif data == "CSE 120":
-            items = File().query.filter(File.className == data)
-            notes = []
-            syllabuses = []
-            pExams = []
-            pHomeworks = []
-
-            for item in items:
-                if item.wfile == "Notes":
-                    notes.append(item)
-                elif item.wfile == "Syllabus":
-                    syllabuses.append(item)
-                elif item.wfile == "Practice Exams":
-                    pExams.append(item)
-                elif item.wfile == "Previous Homeworks":
-                    pHomeworks.append(item)
-            
-            return render_template(
-                'classDetails.html',
-                message = data,
-                title = "120",
-                notes = notes,
-                syllabuses = syllabuses,
-                pExams = pExams,
-                pHomeworks = pHomeworks
-            )
-        elif data == "CSE 130":
-            items = File().query.filter(File.className == data)
-            notes = []
-            syllabuses = []
-            pExams = []
-            pHomeworks = []
-
-            for item in items:
-                if item.wfile == "Notes":
-                    notes.append(item)
-                elif item.wfile == "Syllabus":
-                    syllabuses.append(item)
-                elif item.wfile == "Practice Exams":
-                    pExams.append(item)
-                elif item.wfile == "Previous Homeworks":
-                    pHomeworks.append(item)
-            
-            return render_template(
-                'classDetails.html',
-                message = data,
-                title = "130",
-                notes = notes,
-                syllabuses = syllabuses,
-                pExams = pExams,
-                pHomeworks = pHomeworks
-            )
-        elif data == "CSE 180":
-            items = File().query.filter(File.className == data)
-            notes = []
-            syllabuses = []
-            pExams = []
-            pHomeworks = []
-
-            for item in items:
-                if item.wfile == "Notes":
-                    notes.append(item)
-                elif item.wfile == "Syllabus":
-                    syllabuses.append(item)
-                elif item.wfile == "Practice Exams":
-                    pExams.append(item)
-                elif item.wfile == "Previous Homeworks":
-                    pHomeworks.append(item)
-            
-            return render_template(
-                'classDetails.html',
-                message = data,
-                title = "180",
-                notes = notes,
-                syllabuses = syllabuses,
-                pExams = pExams,
-                pHomeworks = pHomeworks
-            )
-        elif data == "CSE 181":
-            items = File().query.filter(File.className == data)
-            notes = []
-            syllabuses = []
-            pExams = []
-            pHomeworks = []
-
-            for item in items:
-                if item.wfile == "Notes":
-                    notes.append(item)
-                elif item.wfile == "Syllabus":
-                    syllabuses.append(item)
-                elif item.wfile == "Practice Exams":
-                    pExams.append(item)
-                elif item.wfile == "Previous Homeworks":
-                    pHomeworks.append(item)
-            
-            return render_template(
-                'classDetails.html',
-                message = data,
-                title = "181",
-                notes = notes,
-                syllabuses = syllabuses,
-                pExams = pExams,
-                pHomeworks = pHomeworks
-            )
-        elif data == "CSE 183":
-            items = File().query.filter(File.className == data)
-            notes = []
-            syllabuses = []
-            pExams = []
-            pHomeworks = []
-
-            for item in items:
-                if item.wfile == "Notes":
-                    notes.append(item)
-                elif item.wfile == "Syllabus":
-                    syllabuses.append(item)
-                elif item.wfile == "Practice Exams":
-                    pExams.append(item)
-                elif item.wfile == "Previous Homeworks":
-                    pHomeworks.append(item)
-            
-            return render_template(
-                'classDetails.html',
-                message = data,
-                title = "183",
-                notes = notes,
-                syllabuses = syllabuses,
-                pExams = pExams,
-                pHomeworks = pHomeworks
-            )
-        elif data == "CSE 140":
-            items = File().query.filter(File.className == data)
-            notes = []
-            syllabuses = []
-            pExams = []
-            pHomeworks = []
-
-            for item in items:
-                if item.wfile == "Notes":
-                    notes.append(item)
-                elif item.wfile == "Syllabus":
-                    syllabuses.append(item)
-                elif item.wfile == "Practice Exams":
-                    pExams.append(item)
-                elif item.wfile == "Previous Homeworks":
-                    pHomeworks.append(item)
-            
-            return render_template(
-                'classDetails.html',
-                message = data,
-                title = "140",
-                notes = notes,
-                syllabuses = syllabuses,
-                pExams = pExams,
-                pHomeworks = pHomeworks
-            )
-        elif data == "CSE 144":
-            items = File().query.filter(File.className == data)
-            notes = []
-            syllabuses = []
-            pExams = []
-            pHomeworks = []
-
-            for item in items:
-                if item.wfile == "Notes":
-                    notes.append(item)
-                elif item.wfile == "Syllabus":
-                    syllabuses.append(item)
-                elif item.wfile == "Practice Exams":
-                    pExams.append(item)
-                elif item.wfile == "Previous Homeworks":
-                    pHomeworks.append(item)
-            
-            return render_template(
-                'classDetails.html',
-                message = data,
-                title = "144",
-                notes = notes,
-                syllabuses = syllabuses,
-                pExams = pExams,
-                pHomeworks = pHomeworks
-            )
-        elif data == "CSE 150":
-            items = File().query.filter(File.className == data)
-            notes = []
-            syllabuses = []
-            pExams = []
-            pHomeworks = []
-
-            for item in items:
-                if item.wfile == "Notes":
-                    notes.append(item)
-                elif item.wfile == "Syllabus":
-                    syllabuses.append(item)
-                elif item.wfile == "Practice Exams":
-                    pExams.append(item)
-                elif item.wfile == "Previous Homeworks":
-                    pHomeworks.append(item)
-            
-            return render_template(
-                'classDetails.html',
-                message = data,
-                title = "150",
-                notes = notes,
-                syllabuses = syllabuses,
-                pExams = pExams,
-                pHomeworks = pHomeworks
-            )
-        elif data == "CSE 160":
-            items = File().query.filter(File.className == data)
-            notes = []
-            syllabuses = []
-            pExams = []
-            pHomeworks = []
-
-            for item in items:
-                if item.wfile == "Notes":
-                    notes.append(item)
-                elif item.wfile == "Syllabus":
-                    syllabuses.append(item)
-                elif item.wfile == "Practice Exams":
-                    pExams.append(item)
-                elif item.wfile == "Previous Homeworks":
-                    pHomeworks.append(item)
-            
-            return render_template(
-                'classDetails.html',
-                message = data,
-                title = "160",
-                notes = notes,
-                syllabuses = syllabuses,
-                pExams = pExams,
-                pHomeworks = pHomeworks
-            )
-        elif data == "CSE 111":
-            items = File().query.filter(File.className == data)
-            notes = []
-            syllabuses = []
-            pExams = []
-            pHomeworks = []
-
-            for item in items:
-                if item.wfile == "Notes":
-                    notes.append(item)
-                elif item.wfile == "Syllabus":
-                    syllabuses.append(item)
-                elif item.wfile == "Practice Exams":
-                    pExams.append(item)
-                elif item.wfile == "Previous Homeworks":
-                    pHomeworks.append(item)
-            
-            return render_template(
-                'classDetails.html',
-                message = data,
-                title = "111",
-                notes = notes,
-                syllabuses = syllabuses,
-                pExams = pExams,
-                pHomeworks = pHomeworks
-            )
-        elif data == "CSE 112":
-            items = File().query.filter(File.className == data)
-            notes = []
-            syllabuses = []
-            pExams = []
-            pHomeworks = []
-
-            for item in items:
-                if item.wfile == "Notes":
-                    notes.append(item)
-                elif item.wfile == "Syllabus":
-                    syllabuses.append(item)
-                elif item.wfile == "Practice Exams":
-                    pExams.append(item)
-                elif item.wfile == "Previous Homeworks":
-                    pHomeworks.append(item)
-            
-            return render_template(
-                'classDetails.html',
-                message = data,
-                title = "112",
-                notes = notes,
-                syllabuses = syllabuses,
-                pExams = pExams,
-                pHomeworks = pHomeworks
-            )
-        elif data == "CSE 115":
-            items = File().query.filter(File.className == data)
-            notes = []
-            syllabuses = []
-            pExams = []
-            pHomeworks = []
-
-            for item in items:
-                if item.wfile == "Notes":
-                    notes.append(item)
-                elif item.wfile == "Syllabus":
-                    syllabuses.append(item)
-                elif item.wfile == "Practice Exams":
-                    pExams.append(item)
-                elif item.wfile == "Previous Homeworks":
-                    pHomeworks.append(item)
-            
-            return render_template(
-                'classDetails.html',
-                message = data,
-                title = "115",
-                notes = notes,
-                syllabuses = syllabuses,
-                pExams = pExams,
-                pHomeworks = pHomeworks
-            )
-       
-
+        # else:
+            # TODO: if the class doesn't exist, maybe display another page?
+            # although at the moment we control what classes can be passed in as 'data'
  
     elif request.method == 'GET':
         return render_template(
@@ -577,16 +190,13 @@ def Classes():
             message='classes should show here'
         )
 
-
-
 @app.route('/Ratings')
 def Ratings():
     if current_user.is_anonymous:
         flash('Please sign in or sign up first :)')
         return redirect (url_for('ClassNeeds'))
     """Renders the Ratings page."""
-    # TODO: replace this with querying the database for every class
-    classes = ["CSE 101", "CSE 102", "CSE 103", "CSE 104"]
+    classes = getClasses()
     # TODO: replace this with actuallying finding out the lowest rated and highest rated classes
     mid = (int)(len(classes)/2)
     highest_rated_classes = classes[0:mid]
@@ -628,3 +238,11 @@ def Upload():
         )
 
 
+def getClasses():
+    '''
+    Acts as a helper function for Classes() and Ratings().
+    Looks to ClassNeeds/classes.txt to find the list of classes.
+    returns: a list of the classes separated by \n
+    ''' 
+    classes = open("ClassNeeds/classes.txt", "r") # reads in from specific txt
+    return classes.read().split("\n")             # splits the data by \n
