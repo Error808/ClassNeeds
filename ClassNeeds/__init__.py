@@ -195,9 +195,12 @@ def Ratings():
     if current_user.is_anonymous:
         flash('Please sign in or sign up first :)')
         return redirect (url_for('ClassNeeds'))
+
     """Renders the Ratings page."""
     classes = getClasses()
-    # TODO: replace this with actuallying finding out the lowest rated and highest rated classes
+
+    # TODO: replace this with actually finding out the lowest rated and highest rated classes
+    #ratings = Ratings.query.all()
     mid = (int)(len(classes)/2)
     highest_rated_classes = classes[0:mid]
     lowest_rated_classes = classes[mid:]
