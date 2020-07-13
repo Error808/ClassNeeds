@@ -249,6 +249,23 @@ def Upload():
             message='classes should show here'
         )
 
+@app.route('/UploadComment', methods = ['GET', 'POST'])
+def UploadComment():
+    if request.method == 'POST':
+        comment = request.form['inputComment']
+        className = request.form['className']
+
+        newComment = Comments( className = className, comment = comment)
+        db.session.add(newComment)
+        db.session.commit()
+    
+    else:
+        return render_template(
+                'classDetails.html',
+                year=datetime.now().year,
+                message='classes should show here'
+        )
+
 
 def getClasses():
     '''

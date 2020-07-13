@@ -104,13 +104,17 @@
             <h3>Comments: </h3>
             <br />
 
-            <input type="comment" class="form-control" id="commentInput" placeholder="Write comment here">
+            <div class="container ">
+                <form action="/UploadComment" method="post">
+                    <div class="form-group">
+                        <input type="comment" class="form-control" name="inputComment" placeholder="Write Comment Here">
+                    </div>
+                    <button type="submit" class="btn btn-warning">Submit</button>
+                </form>
+            </div>
+            
             <br />
-
-            <button type="submit" class="btn btn-warning">Submit</button>
-            <br />
-            <br />
-
+            
             {% if commentList|length < 1 %}
             <p> Sorry! No comments have been posted </p>
             {% else %}
