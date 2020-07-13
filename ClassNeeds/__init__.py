@@ -51,6 +51,12 @@ class Ratings(db.Model):
     className = db.Column(db.String(300))
     rating = db.Column(db.Integer)
 
+# table for comments
+class Comments(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    className = db.Column(db.String(300))
+    comment = db.Column(db.String(500))
+
 #creates the table
 db.create_all()
 
@@ -154,10 +160,12 @@ def Classes():
         
         if data in classes:
             items = File().query.filter(File.className == data)
+            comments = Comments().query.filter(Comments.className == data)
             notes = []
             syllabuses = []
             pExams = []
             pHomeworks = []
+            commentList = []
 
             for item in items:
                 if item.wfile == "Notes":
@@ -169,6 +177,9 @@ def Classes():
                 elif item.wfile == "Previous Homeworks":
                     pHomeworks.append(item)
             
+            for comment in comments:
+                commentList.append(comment)
+
             return render_template(
                 'classDetails.html',
                 message = data,
@@ -176,7 +187,8 @@ def Classes():
                 notes = notes,
                 syllabuses = syllabuses,
                 pExams = pExams,
-                pHomeworks = pHomeworks
+                pHomeworks = pHomeworks,
+                commentList = commentList
             )
         # else:
             # TODO: if the class doesn't exist, maybe display another page?
