@@ -12,7 +12,7 @@
         <h3>Highest Rated Classes</h3>
 
         <form action= "/Classes" method="post">
-            {% for item in highest_rated_classes %}
+            {% for item in highestRatedClasses %}
                 <div class="justify-content-center">
                     <button type="submit" name="classChoose" value="{{ item }}" class="btn btn-warning btn-lg border border-dark rounded m-2"> {{ item }} </button>
                 </div>
@@ -25,7 +25,7 @@
         <h3>Lowest Rated Classes</h3>
 
         <form action= "/Classes" method="post">
-            {% for item in lowest_rated_classes %}
+            {% for item in lowestRatedClasses %}
                 <div class="justify-content-center">
                     <button type="submit" name="classChoose" value="{{ item }}" class="btn btn-warning btn-lg border border-dark rounded m-2"> {{ item }} </button>
                 </div>
@@ -33,6 +33,34 @@
         </form>
     </div>
 
+</div>
+
+<div class="jumbotron bg-warning text-center">
+    <h1>All Classes</h1>
+
+    {% for class,rating in zippedMsg %}
+        <div class="justify-content-center">
+            <h4> 
+                {{ class }}  {{ rating }} 
+                <form action= "/Ratings" method="post">
+                    <input class="form-control" type="hidden" value="{{ class }}" name="classChoose">
+                    {% if class in classesUp %}
+                        <button type="submit" name="direction" value="up" class="btn btn-secondary btn-sm border border-dark rounded m-2"> Upvote </button>
+                    {% else %}
+                        <button type="submit" name="direction" value="up" class="btn btn-warning btn-sm border border-dark rounded m-2"> Upvote </button>
+                    {% endif %}
+                </form>
+                <form action= "/Ratings" method="post">
+                    <input class="form-control" type="hidden" value="{{ class }}" name="classChoose">
+                    {% if class in classesDown %}
+                        <button type="submit" name="direction" value="down" class="btn btn-secondary btn-sm border border-dark rounded m-2"> Downvote </button>
+                    {% else %}
+                        <button type="submit" name="direction" value="down" class="btn btn-warning btn-sm border border-dark rounded m-2"> Downvote </button>
+                    {% endif %}
+                </form>
+            </h4>
+        </div>
+    {% endfor %}
 </div>
 
 {% endblock %}
