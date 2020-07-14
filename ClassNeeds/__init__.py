@@ -59,6 +59,23 @@ db.create_all()
 def load_user(user_id):
     return Users.query.get(int(user_id))
 
+
+
+
+@app.route('/Home', methods = ['GET'])
+def Home():
+    if current_user.is_anonymous:
+        flash('Please sign in or sign up first :)')
+        return redirect (url_for('ClassNeeds'))
+
+    if request.method == 'GET':
+        return render_template(
+        'home.html',
+        userE = current_user.email
+       
+    )
+       
+
 @app.route('/SignUp' , methods = ['GET', 'POST'])
 def SignUp():
     if request.method == 'POST':
@@ -87,6 +104,7 @@ def SignIn():
     if current_user.is_authenticated:
         flash('You are already signed in!')
         return redirect (url_for('ClassNeeds'))
+
     if request.method == 'POST':
         user = request.form['user']
         passW = request.form['passW']
@@ -147,9 +165,10 @@ def Classes():
         return redirect (url_for('ClassNeeds'))
 
     if request.method == 'POST':
-        
+
         data = request.form['classChoose']
 
+    
         classes = getClasses() # helper function below
         
         if data in classes:
