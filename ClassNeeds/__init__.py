@@ -257,6 +257,12 @@ def UploadComment():
     newComment = Comments( className = className, comment = comment)
     db.session.add(newComment)
     db.session.commit()
+    
+    return render_template(
+            'classes.html',
+            year=datetime.now().year,
+            message='classes should show here'
+        )
 
 
 def getClasses():
