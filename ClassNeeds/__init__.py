@@ -123,11 +123,7 @@ def SignIn():
 def SignOut():
     if current_user.is_anonymous:
         flash('You are not signed in!')
-<<<<<<< HEAD
         return redirect (url_for('SignUp'))
-=======
-        return redirect (url_for('SignIn'))
->>>>>>> master
     logout_user()
     flash('You signed out successfully.')
     return redirect(url_for('ClassNeeds'))
@@ -209,13 +205,7 @@ def Classes():
             message='classes should show here'
         )
 
-<<<<<<< HEAD
-
-
-@app.route('/Ratings')
-=======
 @app.route('/Ratings', methods = ['GET', 'POST'])
->>>>>>> master
 def Ratings():
     if current_user.is_anonymous:
         flash('Please sign in or sign up first :)')
@@ -236,7 +226,7 @@ def Ratings():
         userIDsUp = query.userIDsUp
         userIDsDown = query.userIDsDown
 
-        # alter the rating
+        # alter the rating 
         if(direction == "up"):
 
             if current_user.id in userIDsUp:      # user voted up already, so subtract 1
@@ -323,16 +313,11 @@ def Ratings():
     return render_template(
         'ratings.html',
         title='Ratings',
-<<<<<<< HEAD
-        highest_rated_classes=highest_rated_classes,
-        lowest_rated_classes=lowest_rated_classes,
-=======
         zippedMsg=zip(classes, ratings),
         classesUp=classesUp,
         classesDown=classesDown,
         highestRatedClasses=highestRatedClasses,
         lowestRatedClasses=lowestRatedClasses,
->>>>>>> master
         year=datetime.now().year
     )
 
