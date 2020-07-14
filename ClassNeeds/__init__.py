@@ -16,6 +16,7 @@ from flask import render_template,  request, redirect, url_for, send_file, flash
 from flask_sqlalchemy import SQLAlchemy
 from io import BytesIO
 from flask_login import LoginManager, UserMixin, login_user,login_required, logout_user, current_user
+from sqlalchemy import func
 
 #from ClassNeeds import app
 
@@ -46,10 +47,12 @@ class Users(UserMixin, db.Model):
     password = db.Column(db.String(120))
 
 # table for reviews
-class Ratings(db.Model):
+class Ratings1(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    className = db.Column(db.String(300))
+    className = db.Column(db.String(300), unique=True)
     rating = db.Column(db.Integer)
+    userIDsUp = db.Column(db.ARRAY(db.Integer))
+    userIDsDown = db.Column(db.ARRAY(db.Integer))
 
 #creates the table
 db.create_all()
@@ -190,29 +193,124 @@ def Classes():
             message='classes should show here'
         )
 
-@app.route('/Ratings')
+@app.route('/Ratings', methods = ['GET', 'POST'])
 def Ratings():
+    """Renders the Ratings page."""
+
     if current_user.is_anonymous:
         flash('Please sign in or sign up first :)')
         return redirect (url_for('ClassNeeds'))
 
-    """Renders the Ratings page."""
-    classes = getClasses()
+    if request.method == 'POST':
+        className = request.form['classChoose']
+        direction = request.form['direction']
 
-    # TODO: replace this with actually finding out the lowest rated and highest rated classes
-    #ratings = Ratings.query.all()
-    mid = (int)(len(classes)/2)
-    highest_rated_classes = classes[0:mid]
-    lowest_rated_classes = classes[mid:]
+        query = Ratings1.query.filter_by(className = className).first()
+
+        # users who have already voted up or down
+        userIDsUp = query.userIDsUp
+        userIDsDown = query.userIDsDown
+
+        # alter the rating
+        if(direction == "up"):
+
+            if current_user.id in userIDsUp:      # user voted up already, so subtract 1
+                query.rating = Ratings1.rating - 1
+                # remove id from userIDsUp
+                db.session.query(Ratings1).filter( Ratings1.className==className ).update( {
+                        Ratings1.userIDsUp: func.array_remove( Ratings1.userIDsUp, current_user.id ) 
+                    }, synchronize_session=False)
+
+            elif current_user.id in userIDsDown:  # user had voted down, so add 2
+                query.rating = Ratings1.rating + 2
+                # add to userIDsUp and remove id from userIDsDown
+                db.session.query(Ratings1).filter( Ratings1.className==className ).update( {
+                        Ratings1.userIDsUp: func.array_append( Ratings1.userIDsUp, current_user.id ),
+                        Ratings1.userIDsDown: func.array_remove( Ratings1.userIDsDown, current_user.id )
+                    }, synchronize_session=False)
+
+            else:                                 # user has not voted, so add 1
+                query.rating = Ratings1.rating + 1
+                # add id to userIDsUp
+                db.session.query(Ratings1).filter( Ratings1.className==className ).update( {
+                        Ratings1.userIDsUp: func.array_append( Ratings1.userIDsUp, current_user.id )
+                    }, synchronize_session=False)
+
+        else: # direction == down
+
+            if current_user.id in userIDsDown:    # user voted down already, so add 1
+                query.rating = Ratings1.rating + 1
+                # remove id from userIDsDown
+                db.session.query(Ratings1).filter( Ratings1.className==className ).update( {
+                        Ratings1.userIDsDown: func.array_remove( Ratings1.userIDsDown, current_user.id ) 
+                    }, synchronize_session=False)
+
+            elif current_user.id in userIDsUp:    # user had voted up, so subtract 2
+                query.rating = Ratings1.rating - 2
+                # add id to userIDsDown and remove from userIDsUp
+                db.session.query(Ratings1).filter( Ratings1.className==className ).update( {
+                        Ratings1.userIDsDown: func.array_append( Ratings1.userIDsDown, current_user.id ),
+                        Ratings1.userIDsUp: func.array_remove( Ratings1.userIDsUp, current_user.id )
+                    }, synchronize_session=False)
+
+            else:                                 # user has not voted, so subtract 1
+                query.rating = Ratings1.rating - 1
+                # add id to userIDsDown
+                db.session.query(Ratings1).filter( Ratings1.className==className ).update( {
+                        Ratings1.userIDsDown: func.array_append( Ratings1.userIDsDown, current_user.id )
+                    }, synchronize_session=False)
+
+        db.session.commit()
+
+    # load in the  ratings page -----------------------------
+    
+    # query the database for each class' rating
+    classes = getClasses()
+    ratings = []
+    for c in classes:
+        ratings.append(Ratings1.query.filter_by(className = c).first().rating)
+
+    # determine classes already voted for
+    classesUp = []
+    classesDown = []
+    for c in classes:
+        upvotes = Ratings1.query.filter_by(className = c).first().userIDsUp
+        downvotes = Ratings1.query.filter_by(className = c).first().userIDsDown
+        if current_user.id in upvotes:
+            classesUp.append(c)
+        elif current_user.id in downvotes:
+            classesDown.append(c)
+
+    # sort the classes based on rating
+    classesAndRatings = []
+    for i in range(0, len(classes)):
+        classesAndRatings.append( {'class': classes[i], 'rating': ratings[i]} )
+    classesAndRatings.sort(key=ratingsSortHelper)
+
+    # grab the 5 highest and lowest classes
+    sortedClasses = []
+    for dictionary in classesAndRatings:
+        sortedClasses.insert(0,dictionary['class']) # prepend
+    highestRatedClasses = sortedClasses[0:5]
+    lowestRatedClasses = sortedClasses[-5:]
 
     # currently assumes strings are being passed in for classes
     return render_template(
         'ratings.html',
         title='Ratings',
-        highest_rated_classes=highest_rated_classes,
-        lowest_rated_classes=lowest_rated_classes,
+        zippedMsg=zip(classes, ratings),
+        classesUp=classesUp,
+        classesDown=classesDown,
+        highestRatedClasses=highestRatedClasses,
+        lowestRatedClasses=lowestRatedClasses,
         year=datetime.now().year
     )
+
+def ratingsSortHelper(element):
+    '''
+    helper function for Ratings()
+    '''
+    return element['rating']
 
 @app.route('/About')
 def About():
@@ -245,7 +343,25 @@ def getClasses():
     '''
     Acts as a helper function for Classes() and Ratings().
     Looks to ClassNeeds/classes.txt to find the list of classes.
-    returns: a list of the classes separated by \n
+    returns: a String[] of the classes separated on \n
     ''' 
     classes = open("ClassNeeds/classes.txt", "r") # reads in from specific txt
     return classes.read().split("\n")             # splits the data by \n
+
+def updateRatingsTableClasses():
+    '''
+    Reads in classes from classes.txt and verifies they're in the database.
+    '''
+    classesToAdd = getClasses()
+    
+    for classToAdd in classesToAdd:
+        classExists = Ratings1.query.filter_by(className = classToAdd).first()
+
+        if not classExists: # class already exists
+            newRating = Ratings1( rating=1, className=classToAdd, userIDsUp=[], userIDsDown=[] )
+            db.session.add(newRating)
+            print("updateRatingsTableClasses: added {} to ratings table".format(classToAdd))
+        
+    db.session.commit()
+
+updateRatingsTableClasses()
