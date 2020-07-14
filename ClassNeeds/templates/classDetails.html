@@ -107,7 +107,8 @@
             <div class="container ">
                 <form action="/UploadComment" method="post">
                     <div class="form-group">
-                        <input type="comment" class="form-control" name="inputComment" placeholder="Write Comment Here">
+                        <input class="form-control" type="hidden" value="{{ message }}" name="className">
+                        <input type="comment" class="form-control" name="inputComment" placeholder="Write Comment Here" required>
                     </div>
                     <button type="submit" class="btn btn-warning">Submit</button>
                 </form>
