@@ -6,6 +6,8 @@ from flask import Flask
 app = Flask(__name__)
 app.secret_key = "super secret key"
 
+from markupsafe import escape
+
 """
 The flask application package.
 """
@@ -79,18 +81,19 @@ def SignUp():
 
 @app.route('/SignIn' , methods = ['GET', 'POST'])
 def SignIn():
+    if current_user.is_authenticated:
+            flash('You have already signed in!')
+            return redirect(url_for('classNeeds'))
     if request.method == 'POST':
         user = request.form['user']
         passW = request.form['passW']
-        remember = True if request.form.get('remember') else False
-
+        # remember = True if request.form.get('remember') else False
+        
         user = Users.query.filter_by(email=user).first()
-
+        
         if not user or not check_password_hash(user.password, passW):
             flash('Email address or password is incorrect.')
-            return redirect(url_for('SignIn')) 
-
-        # return redirect(url_for('profile'))
+            return redirect(url_for('SignIn'))
         login_user(user)
         flash('Signed in successfully.')
         return redirect(url_for('classNeeds'))
@@ -102,12 +105,45 @@ def SignIn():
         year=datetime.now().year
     )
 
+
 @app.route('/SignOut')
 @login_required
 def Logout():
     logout_user()
     flash('signed out.')
     return redirect(url_for('classNeeds'))
+
+@app.route('/Profile/<email>')
+@login_required
+def user(email):
+    user = Users.query.filter_by(email=email).first()
+    return render_template(
+        'profile.html',
+        user=user
+    )
+
+@app.route('/reset', methods = ['GET','POST'])
+@login_required
+def Reset():
+    if request.method == 'POST':
+        old = request.form['oldpass']
+        new = request.form['newpass']
+        remove = Users.query.filter_by(email=current_user.email).first()
+        if check_password_hash(current_user.password, old):
+            db.session.delete(remove)
+            db.session.commit()
+            new_user1 = Users(email=current_user.email, password=generate_password_hash(new, method='sha256'))
+            db.session.add(new_user1)
+            db.session.commit()
+            flash('Successful, please log in again')   
+            return render_template(
+                'signIn.html',)
+     
+        flash('Your old password is not correct!')
+        
+    return render_template(
+        'reset.html',
+        )
 
 
 
@@ -613,5 +649,4 @@ def Upload():
             year=datetime.now().year,
             message='classes should show here'
         )
-
 

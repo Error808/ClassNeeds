@@ -24,10 +24,18 @@
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('Ratings') }}">Ratings</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('About') }}">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('SignIn') }}">Sign In/Sign Up</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('Logout') }}">Sign out</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('Reset',email=current_user.email) }}"></a></li>
 
                 </ul>
+
             </div>
+
+            <ul class="navbar-nav justify-content-end">
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('user', email=current_user.email) }}">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('Logout') }}">Sign out</a></li>
+            </ul>
+
+
         </nav>
 
     </div>
