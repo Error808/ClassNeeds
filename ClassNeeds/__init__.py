@@ -217,11 +217,27 @@ def Classes():
             # although at the moment we control what classes can be passed in as 'data'
  
     elif request.method == 'GET':
+        classes = getClasses()
+
+        # divide the classes into rows of 4
+        classesDivided = []
+        classRow = []
+        col = 0
+        for c in classes:
+            if col == 4: # the number per row
+                col = 0
+                classesDivided.append(classRow.copy()) # add row to classesDivided
+                classRow = []                          # reset the row object
+            
+            classRow.append(c) # add the class to a row
+            col += 1
+        
         return render_template(
             'classes.html',
             title='Classes',
             year=datetime.now().year,
-            message='classes should show here'
+            message='classes should show here',
+            classes=classesDivided
         )
 
 @app.route('/Ratings', methods = ['GET', 'POST'])
@@ -328,11 +344,24 @@ def Ratings():
     highestRatedClasses = sortedClasses[0:5]
     lowestRatedClasses = sortedClasses[-5:]
 
+    # divide the classes and their ratings into rows of 4
+    classesDivided = []
+    classRow = []
+    col = 0
+    for classAndRating in zip(classes,ratings):
+        if col == 4: # the number per row
+            col = 0
+            classesDivided.append(classRow.copy()) # add row to classesDivided
+            classRow = []                          # reset the row object
+        
+        classRow.append(classAndRating)  # add the class to a row
+        col += 1
+
     # currently assumes strings are being passed in for classes
     return render_template(
         'ratings.html',
         title='Ratings',
-        zippedMsg=zip(classes, ratings),
+        classesDivided=classesDivided,
         classesUp=classesUp,
         classesDown=classesDown,
         highestRatedClasses=highestRatedClasses,
