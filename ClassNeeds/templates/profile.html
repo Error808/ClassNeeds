@@ -8,6 +8,7 @@
     </div>
 </div>
 
+
 <div class="row py-5 px-4">
     <div class="col-xl-4 col-md-6 col-sm-10 mx-auto">
 
@@ -20,8 +21,14 @@
                     </div><br>
                 </div>
             </div>
-
-            <div class="bg-light p-4 d-flex justify-content-end text-center">
+            <form action="/Profile/<email>" method="post">
+                <p> Please enter your favorite classname:</p><br>
+                <div class="form-group">
+                    <input type="class" class="form-control" name="classname">
+                </div>
+                <button type="submit" class="btn btn-warning">submit</button>
+            </form>
+            {# <div class="bg-light p-4 d-flex justify-content-end text-center">
                 <ul class="list-inline mb-0">
                     <li class="list-inline-item">
                         <h5 class="font-weight-bold mb-0 d-block">1</h5><small class="text-muted"> <i class="fa fa-picture-o mr-1"></i>Ratings</small>
@@ -36,14 +43,17 @@
                 <div class="d-flex mb-3">
                     <h5 class="mb-0">Favorive Classes</h5>
                 </div>
+
                 <div>
                 <span class="badge badge-warning">cse115a</span>
                 <span class="badge badge-danger">cse120</span>
-
                 </div>
+
                 <hr>
 
-            </div>
+            </div> #}
+
+
         </div>
 
     </div>
