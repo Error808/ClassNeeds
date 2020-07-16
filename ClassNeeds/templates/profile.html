@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3 mx-auto text-warning text-center pt-5">
+        <h1 class="display-4">Welcome, {{ user.email }}</h1>
+        <a class="btn btn-link text-link" href="{{ url_for('Reset', email=current_user.email) }}" role="button">Reset password?</a>
+    </div>
+</div>
+
+
+<div class="row py-5 px-4">
+    <div class="col-xl-4 col-md-6 col-sm-10 mx-auto">
+
+        <div class="bg-white shadow rounded overflow-hidden">
+            <div class="px-4 pt-0 pb-4 bg-warning">
+                <div class="media align-items-end profile-header">
+                    <div class="media-body mb-5 text-white">
+                        <br>
+                        <h1 class="mt-0 mb-0">{{ user.email }}</h1>
+                    </div><br>
+                </div>
+            </div>
+            <form action="/Profile/<email>" method="post">
+                <p> Please enter your favorite classname:</p>
+                <div class="form-group">
+                    <input type="class" class="form-control" name="classname">
+                </div>
+                <button type="submit" class="btn btn-warning">submit</button>
+            </form>
+            <hr>
+            <form action="/Profile/<email>" method="post">
+                {% for item in allFavorite %}
+                    <div class="justify-content-center">
+                        <button type="submit" name="classChoose" value="{{ item }}" class="btn btn-warning btn-lg border border-dark rounded m-2"> {{ item }} </button>
+                    </div>
+                {% endfor %}
+            </form>
+            {# <div class="bg-light p-4 d-flex justify-content-end text-center">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">1</h5><small class="text-muted"> <i class="fa fa-picture-o mr-1"></i>Ratings</small>
+                    </li>
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">1</h5><small class="text-muted"> <i class="fa fa-user-circle-o mr-1"></i>Uploads</small>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="py-4 px-4">
+                <div class="d-flex mb-3">
+                    <h5 class="mb-0">Favorive Classes</h5>
+                </div>
+
+                <div>
+                <span class="badge badge-warning">cse115a</span>
+                <span class="badge badge-danger">cse120</span>
+                </div>
+
+                <hr>
+
+            </div> #}
+
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}
