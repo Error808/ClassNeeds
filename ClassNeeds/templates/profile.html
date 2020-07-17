@@ -28,6 +28,14 @@
                 </div>
                 <button type="submit" class="btn btn-warning">submit</button>
             </form>
+            <hr>
+            <form action="/Profile/<email>" method="post">
+                {% for item in allFavorite %}
+                    <div class="justify-content-center">
+                        <button type="submit" name="classChoose" value="{{ item }}" class="btn btn-warning btn-lg border border-dark rounded m-2"> {{ item }} </button>
+                    </div>
+                {% endfor %}
+            </form>
             {# <div class="bg-light p-4 d-flex justify-content-end text-center">
                 <ul class="list-inline mb-0">
                     <li class="list-inline-item">
