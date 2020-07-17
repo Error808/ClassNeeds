@@ -1,4 +1,7 @@
 .vscode/
+.vs/
 ClassNeeds/__pycache__/__init__.cpython-37.pyc
 ClassNeeds/__pycache__/config.cpython-37.pyc
-.vs/
+Testing\__pycache__
+Testing\.pytest_cache
+*.pyc
