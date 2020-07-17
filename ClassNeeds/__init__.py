@@ -127,8 +127,19 @@ def user(email):
         db.session.commit()
         
 
-        # needs to show favorite classess on profile card like Jordan did
+        allFavoriteNew = []
+        allFavoriteNew = current_user.favorite
 
+        return render_template(
+            'profile.html',
+            user=user,
+            allFavorite = allFavoriteNew
+        )
+
+
+        # needs to show favorite classess on profile card like Jordan did
+    allFavorite = []
+    allFavorite = current_user.favorite
 
     return render_template(
         'profile.html',
