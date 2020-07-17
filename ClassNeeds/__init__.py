@@ -146,7 +146,75 @@ def SignOut():
     flash('You signed out successfully.')
     return redirect(url_for('ClassNeeds'))
 
+@app.route('/Profile/<email>', methods = ['GET', 'POST'])
+@login_required
+def user(email):
+    user = Users.query.filter_by(email=current_user.email).first()
+    if request.method == 'POST':
+        favorite1 = request.form['classname']
+        Users.query.filter_by(email=current_user.email).update({
+                        Users.favorite: func.array_append( Users.favorite, favorite1 )},
+                         synchronize_session=False)
+        db.session.commit()
+        
+        allFavoriteNew = []
+        allFavoriteNew = current_user.favorite
+        res = []
+        for i in allFavoriteNew: 
+            if i not in res: 
+                res.append(i) 
 
+        return render_template(
+            'profile.html',
+            user=user,
+            allFavorite = res
+        )
+
+
+    allFavorite = []
+    allFavorite = current_user.favorite
+    print(allFavorite)
+
+    # res1 = []
+    # for j in allFavorite: 
+    #     if j not in res1: 
+    #         res1.append(j) 
+
+    return render_template(
+        'profile.html',
+         user=user,
+        # allFavorite = res1
+        # allFavorite = allFavorite
+    )
+
+@app.route('/reset', methods = ['GET','POST'])
+@login_required
+def Reset():
+    if request.method == 'POST':
+        user = Users.query.filter_by(email=current_user.email).first()
+
+        old = request.form['oldpass']
+        new = request.form['newpass']
+        # remove = Users.query.filter_by(email=current_user.email).first()
+        if check_password_hash(current_user.password, old):
+            newp = generate_password_hash(new, method='sha256')
+            # db.session.delete(remove)
+            # db.session.commit()
+            # new_user1 = Users(email=current_user.email, password=generate_password_hash(new, method='sha256'))
+            # db.session.add(new_user1)
+            # db.session.commit()
+            Users.query.filter_by(email=current_user.email).update(
+                dict(password = newp),synchronize_session=False)
+            db.session.commit()
+            flash('Successful, please log in again')   
+            return render_template(
+                'signIn.html',)
+     
+        flash('Your old password is not correct!')
+        
+    return render_template(
+        'reset.html',
+        )
 
 
 @app.route('/')
