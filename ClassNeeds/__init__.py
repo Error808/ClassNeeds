@@ -179,9 +179,12 @@ def user(email):
     allFavorite = current_user.favorite
 
     res1 = []
-    for j in allFavorite: 
-        if j not in res1: 
-            res1.append(j) 
+    if not allFavorite:
+        res1 = []
+    else:
+        for j in allFavorite: 
+            if j not in res1: 
+                res1.append(j) 
 
     return render_template(
         'profile.html',
