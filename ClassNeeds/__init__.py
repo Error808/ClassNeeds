@@ -6,6 +6,8 @@ from flask import Flask
 app = Flask(__name__)
 app.secret_key = "super secret key"
 
+from markupsafe import escape
+
 """
 The flask application package.
 """
@@ -45,6 +47,8 @@ class Users(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(80), unique=True)
     password = db.Column(db.String(120))
+    favorite = db.Column(db.ARRAY(db.String(120)))
+
 
 # table for reviews
 class Ratings1(db.Model):
@@ -117,7 +121,7 @@ def SignIn():
     if request.method == 'POST':
         user = request.form['user']
         passW = request.form['passW']
-        remember = True if request.form.get('remember') else False
+        # remember = True if request.form.get('remember') else False
 
         user = Users.query.filter_by(email=user).first()
 
@@ -173,23 +177,34 @@ def user(email):
 
     allFavorite = []
     allFavorite = current_user.favorite
-    print(allFavorite)
 
-    # res1 = []
-    # for j in allFavorite: 
-    #     if j not in res1: 
-    #         res1.append(j) 
+    res1 = []
+    for j in allFavorite: 
+        if j not in res1: 
+            res1.append(j) 
 
     return render_template(
         'profile.html',
-         user=user,
-        # allFavorite = res1
+        user=user,
+        allFavorite = res1,
         # allFavorite = allFavorite
+        year=datetime.now().year
+
     )
+
+@app.route('/Profile/')
+def profile():
+    if current_user.is_anonymous:
+        flash('You are not signed in!')
+        return redirect (url_for('SignIn'))
+
+
+
 
 @app.route('/reset', methods = ['GET','POST'])
 @login_required
 def Reset():
+   
     if request.method == 'POST':
         user = Users.query.filter_by(email=current_user.email).first()
 
@@ -226,7 +241,6 @@ def ClassNeeds():
         title='Home Page',
         year=datetime.now().year,
     )
-
 
 
 @app.route('/Download/<int:id>', methods=['GET'])
