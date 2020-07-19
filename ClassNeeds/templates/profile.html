@@ -13,14 +13,7 @@
     <div class="col-xl-4 col-md-6 col-sm-10 mx-auto">
 
         <div class="bg-white shadow rounded overflow-hidden">
-            <div class="px-4 pt-0 pb-4 bg-warning">
-                <div class="media align-items-end profile-header">
-                    <div class="media-body mb-5 text-white">
-                        <br>
-                        <h1 class="mt-0 mb-0">{{ user.email }}</h1>
-                    </div><br>
-                </div>
-            </div>
+            
             {#<form action="/Profile/<email>" method="post">
                 <p> To do list:</p>
                 <div class="form-group">
@@ -28,7 +21,7 @@
                 </div>
                 <button type="submit" class="btn btn-warning">submit</button>
             </form>
-            <hr>
+            <br>
             <form action="/Profile/<email>" method="post">
                 {% for item in allFavorite %}
                     <div class="justify-content-center">
@@ -37,7 +30,7 @@
                 {% endfor %}
             </form> #}
 
-            <hr>
+            <br>
 
             <form class="form-inline" action="/Profile/<email>" method="post">
                 <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Select your favorite classes:</label>

@@ -6,7 +6,6 @@ from flask import Flask
 app = Flask(__name__)
 app.secret_key = "super secret key"
 
-from markupsafe import escape
 
 """
 The flask application package.
@@ -19,6 +18,7 @@ from flask_sqlalchemy import SQLAlchemy
 from io import BytesIO
 from flask_login import LoginManager, UserMixin, login_user,login_required, logout_user, current_user
 from sqlalchemy import func
+from markupsafe import escape
 
 #from ClassNeeds import app
 
@@ -73,21 +73,6 @@ def load_user(user_id):
     return Users.query.get(int(user_id))
 
 
-
-
-@app.route('/Home', methods = ['GET'])
-def Home():
-    if current_user.is_anonymous:
-        flash('Please sign in or sign up first :)')
-        return redirect (url_for('ClassNeeds'))
-
-    if request.method == 'GET':
-        return render_template(
-        'home.html',
-        userE = current_user.email
-       
-    )
-       
 
 @app.route('/SignUp' , methods = ['GET', 'POST'])
 def SignUp():
@@ -145,7 +130,7 @@ def SignIn():
 def SignOut():
     if current_user.is_anonymous:
         flash('You are not signed in!')
-        return redirect (url_for('SignUp'))
+        return redirect (url_for('SignIn'))
     logout_user()
     flash('You signed out successfully.')
     return redirect(url_for('ClassNeeds'))
