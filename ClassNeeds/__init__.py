@@ -49,7 +49,6 @@ class Users(UserMixin, db.Model):
     password = db.Column(db.String(120))
     favorite = db.Column(db.ARRAY(db.String(120)))
 
-
 # table for reviews
 class Ratings1(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -63,6 +62,12 @@ class Comments(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     className = db.Column(db.String(300))
     comment = db.Column(db.String(500))
+
+# table for BSOE flowcharts
+class Charts(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(300))
+    data = db.Column(db.LargeBinary)
 
 #creates the table
 db.create_all()
@@ -447,6 +452,30 @@ def ratingsSortHelper(element):
     '''
     return element['rating']
 
+@app.route('/Download_Chart/<int:id>', methods=['GET'])
+def Download_Chart(id):
+    item = Charts().query.filter_by(id=id).first()
+    return send_file(BytesIO(item.data), as_attachment = True, attachment_filename = item.name)
+
+@app.route('/Curriculum_Charts')
+def Curriculum_Charts():
+    """Renders the Curriculum_Charts page."""
+
+    return ReturnChartsPage()
+
+def ReturnChartsPage():
+    '''
+    helper function for Curriculum_Charts()
+    '''
+    charts = Charts().query.all()
+
+    return render_template(
+        'curriculumCharts.html',
+        title='Curriculum Charts',
+        charts=charts,
+        year=datetime.now().year
+    )
+
 @app.route('/About')
 def About():
     """Renders the About page."""
@@ -483,6 +512,16 @@ def UploadComment():
     db.session.commit()
     
     return ReturnClassesPage() # helper function right under Classes()
+
+@app.route('/Upload_Chart', methods = ['POST'])
+def Upload_Chart():
+    file = request.files['inputFile']
+
+    newChart = Charts( name=file.filename, data=file.read())
+    db.session.add(newChart)
+    db.session.commit()
+    
+    return ReturnChartsPage()
 
 
 def getClasses():

@@ -41,8 +41,6 @@ class BasicTests(unittest.TestCase):
         response = self.app.get('/', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
 
-    # Home (profile page? WIP (work in progress) )
-
     # SignUp
     ''' Tests for signing up an account. '''
     '''def test_valid_SignUp(self):
@@ -72,7 +70,14 @@ class BasicTests(unittest.TestCase):
     # Ratings
 
 
+    # Curriculum Charts
+
+
     # About
+
+
+    # Profile
+    
 
     ########################
     #### helper methods ####

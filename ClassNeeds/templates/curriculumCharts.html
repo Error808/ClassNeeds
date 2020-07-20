@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="jumbotron bg-warning text-center">
+    <h1>UCSC BSOE Curriculum Charts</h1>
+
+    <a href="https://undergrad.soe.ucsc.edu/curriculum-charts">Official Curriculum Charts</a>
+</div>
+
+<div class="jumbotron bg-warning text-center">
+    <div class="col-md rounded">
+
+        {% for chart in charts %}
+        <li class="list-group-item list-group-item-action list-group-item-warning ">
+            <a style=" word-break: break-all " href={{ url_for('Download_Chart', id = chart.id)   }}> {{ chart.name }} </a>
+        </li>
+        {% endfor %}
+        
+    </div>
+</div>
+
+<div class="jumbotron bg-warning text-center">
+    
+    <div class="col-md rounded">
+        <h3> Upload Files </h3>
+        <br />
+        
+        <form action="/Upload_Chart" method="post" enctype="multipart/form-data">
+            <div class="form-group ">
+                <input type="file" name="inputFile" required>
+            </div>
+            <div class="form-group ">
+                <button type="submit" class="btn btn-warning border border-dark">Submit</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+    
+{% endblock %}
