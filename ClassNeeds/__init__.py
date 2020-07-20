@@ -144,6 +144,8 @@ def SignOut():
 @login_required
 def user(email):
     user = Users.query.filter_by(email=current_user.email).first()
+    classes = getClasses()
+
     if request.method == 'POST':
         favorite1 = request.form['classname']
         Users.query.filter_by(email=current_user.email).update({
@@ -161,9 +163,10 @@ def user(email):
         return render_template(
             'profile.html',
             user=user,
-            allFavorite = res
+            allFavorite=res,
+            classes=classes,
+            year=datetime.now().year
         )
-
 
     allFavorite = []
     allFavorite = current_user.favorite
@@ -179,10 +182,10 @@ def user(email):
     return render_template(
         'profile.html',
         user=user,
-        allFavorite = res1,
+        allFavorite=res1,
         # allFavorite = allFavorite
+        classes=classes,
         year=datetime.now().year
-
     )
 
 @app.route('/Profile/')
@@ -251,7 +254,7 @@ def Classes():
     if request.method == 'POST':
 
         data = request.form['classChoose']
-    
+        
         classes = getClasses() # helper function below
         
         if data in classes:
@@ -286,9 +289,9 @@ def Classes():
                 pHomeworks = pHomeworks,
                 commentList = commentList
             )
-        # else:
-            # TODO: if the class doesn't exist, maybe display another page?
-            # although at the moment we control what classes can be passed in as 'data'
+        else: # if the class doesn't exist within the classes.txt file
+            flash('Could not find the specified class.')
+            return ReturnClassesPage()
  
     elif request.method == 'GET':
         return ReturnClassesPage()
@@ -460,6 +463,9 @@ def Download_Chart(id):
 @app.route('/Curriculum_Charts')
 def Curriculum_Charts():
     """Renders the Curriculum_Charts page."""
+    if current_user.is_anonymous:
+        flash('Please sign in or sign up first :)')
+        return redirect (url_for('ClassNeeds'))
 
     return ReturnChartsPage()
 
@@ -496,11 +502,7 @@ def Upload():
     db.session.add(newFile)
     db.session.commit()
 
-    return render_template(
-            'classes.html',
-            year=datetime.now().year,
-            message='classes should show here'
-        )
+    return ReturnClassesPage() # helper function right under Classes()
 
 @app.route('/UploadComment', methods = ['POST'])
 def UploadComment():
