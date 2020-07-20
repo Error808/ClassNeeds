@@ -307,13 +307,13 @@ def ReturnClassesPage():
     classRow = []
     col = 0
     for c in classes:
+        classRow.append(c) # add the class to a row
+        col += 1
+
         if col == 4: # the number per row
             col = 0
             classesDivided.append(classRow.copy()) # add row to classesDivided
             classRow = []                          # reset the row object
-        
-        classRow.append(c) # add the class to a row
-        col += 1
     
     return render_template(
         'classes.html',

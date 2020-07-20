@@ -12,7 +12,7 @@ import unittest
 from ClassNeeds import app, db # code from module you're testing
 
 # I (Jordan) set up a local postgres db
-LOCAL_DB_URI = 'postgres://postgres:test1234@localhost:5432'
+LOCAL_DB_URI = 'postgres://postgres:test1234@localhost:5432' # change this as necessary
 
 class BasicTests(unittest.TestCase):
  
