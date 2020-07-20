@@ -258,7 +258,6 @@ def Classes():
     if request.method == 'POST':
 
         data = request.form['classChoose']
-
     
         classes = getClasses() # helper function below
         
@@ -299,34 +298,37 @@ def Classes():
             # although at the moment we control what classes can be passed in as 'data'
  
     elif request.method == 'GET':
-        classes = getClasses()
+        return ReturnClassesPage()
 
-        # divide the classes into rows of 4
-        classesDivided = []
-        classRow = []
-        col = 0
-        for c in classes:
-            if col == 4: # the number per row
-                col = 0
-                classesDivided.append(classRow.copy()) # add row to classesDivided
-                classRow = []                          # reset the row object
-            
-            classRow.append(c) # add the class to a row
-            col += 1
+def ReturnClassesPage():
+    '''
+    helper function for Classes()
+    '''
+    classes = getClasses()
+
+    # divide the classes into rows of 4
+    classesDivided = []
+    classRow = []
+    col = 0
+    for c in classes:
+        if col == 4: # the number per row
+            col = 0
+            classesDivided.append(classRow.copy()) # add row to classesDivided
+            classRow = []                          # reset the row object
         
-        return render_template(
-            'classes.html',
-            title='Classes',
-            year=datetime.now().year,
-            message='classes should show here',
-            classes=classesDivided
-        )
+        classRow.append(c) # add the class to a row
+        col += 1
+    
+    return render_template(
+        'classes.html',
+        title='Classes',
+        year=datetime.now().year,
+        message='classes should show here',
+        classes=classesDivided
+    )
 
 @app.route('/Ratings', methods = ['GET', 'POST'])
 def Ratings():
-    if current_user.is_anonymous:
-        flash('Please sign in or sign up first :)')
-        return redirect (url_for('ClassNeeds'))
     """Renders the Ratings page."""
 
     if current_user.is_anonymous:
@@ -492,11 +494,7 @@ def UploadComment():
     db.session.add(newComment)
     db.session.commit()
     
-    return render_template(
-            'classes.html',
-            year=datetime.now().year,
-            message='classes should show here'
-        )
+    return ReturnClassesPage() # helper function right under Classes()
 
 
 def getClasses():
