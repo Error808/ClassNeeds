@@ -287,6 +287,26 @@ def Classes():
             for comment in comments:
                 commentList.append(comment)
 
+            className = data;
+            className = className.replace(" ","");
+            className = className.lower();
+            className = "ClassNeeds/ClassDescriptions/" + className + ".txt";
+
+            try:
+                classTxt = open(className, "r");
+                description = classTxt.readline();
+                profs = classTxt.readline();
+                quarters = classTxt.readline();
+                units = classTxt.readline();
+                lab = classTxt.readline();
+                classTxt.close();
+            except: 
+                description = "Nothing Found";
+                profs = "Nothing Found";
+                quarters = "Nothing Found";
+                units = "Nothing Found";
+                lab = "Nothing Found";
+
             return render_template(
                 'classDetails.html',
                 message = data,
@@ -295,7 +315,12 @@ def Classes():
                 syllabuses = syllabuses,
                 pExams = pExams,
                 pHomeworks = pHomeworks,
-                commentList = commentList
+                commentList = commentList,
+                description = description,
+                profs = profs,
+                quarters = quarters,
+                units = units,
+                lab = lab
             )
         # else:
             # TODO: if the class doesn't exist, maybe display another page?
