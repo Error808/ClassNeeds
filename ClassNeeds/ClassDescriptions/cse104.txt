@@ -1,0 +1,5 @@
+Turing machines, general phase-structure grammars, the Chomsky hierarchy, recursive functions, diagonalization, the Halting problem, computability and unsolvability, computational complexity, time and space bounds, NP-completeness with emphasis on reductions between problems from various areas. (Formerly CMPS 132.)
+Delbert Bailey, Manfred Warmuth, Allen Van Gelder, Phokion Kolaitis, David Helmbold
+Fall, Spring
+5
+No

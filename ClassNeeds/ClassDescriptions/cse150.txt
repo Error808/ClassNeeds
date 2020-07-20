@@ -1,0 +1,5 @@
+Addresses issues arising in organizing communications among autonomous computers. Network models and conceptual layers; Internet-working; characteristics of transmission media; switching techniques (packet switching, circuit switching, cell switching); medium access control (MAC) protocols and local area networks; error-control strategies and link-level protocols; routing algorithms for bridges and routers; congestion control mechanisms; transport protocols; application of concepts to practical wireless and wireline networks and standard protocol architectures. Students who have completed course 80N can take this course for credit. (Formerly CMPE 150.)
+Quian Chen, Katia Obraczka
+Fall, Winter, Spring
+5
+No
