@@ -1,5 +1,5 @@
 # ClassNeeds
-A website that UCSC students can use to prepare for their future CSE classes. This website will include uploaded files for each class such as syllabus, class notes, exam reviews, etc. It will show ratings of the classes rated by the users, so students can get a feel of the usefulness of a class that they are planning for. Students can also find out the professors that taught the class and they can click on the professor's name so it takes to ratemyprofessor website for the rating of the professor.
+A website that UCSC students can use to prepare for their future CSE classes.
 ## Website's link:
 https://classneeds.herokuapp.com/
 ## Website’s pages: 
