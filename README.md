@@ -1,5 +1,5 @@
 # ClassNeeds
-A website that UCSC students can use to prepare for their future CSE classes.
+A website that UCSC students can use to prepare for their future CSE classes. Instead of paying for Chegg or CourseHero, users can find most of the important materials such as syllabuses, class notes, documents, teacher's notes, links to pdf books, and more for FREE. Users may even upload allowed materials (excluding homework solutions) of their own from previous classes to help the future students. This website will also include the professor's info such as name and link to ratemyprofessor.com for each class that they taught.
 ## Website's link:
 https://classneeds.herokuapp.com/
 ## Website’s pages: 
