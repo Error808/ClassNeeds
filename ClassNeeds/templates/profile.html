@@ -21,22 +21,7 @@
                     </div><br>
                 </div>
             </div>
-            {#<form action="/Profile/<email>" method="post">
-                <p> To do list:</p>
-                <div class="form-group">
-                    <input type="class" class="form-control" name="classname">
-                </div>
-                <button type="submit" class="btn btn-warning">submit</button>
-            </form>
-            <hr>
-            <form action="/Profile/<email>" method="post">
-                {% for item in allFavorite %}
-                    <div class="justify-content-center">
-                        <span class="badge badge-danger rounded m-2"> {{ item }} </span>
-                    </div>
-                {% endfor %}
-            </form> #}
-
+        
             <hr>
 
             <form class="form-inline" action="/Profile/<email>" method="post">
@@ -63,36 +48,12 @@
               <form action="/Profile/<email>" method="post">
                   {% for item in allFavorite %}
                       <div class="justify-content-center">
-                          <span class="badge badge-danger rounded m-2"> {{ item }} </span>
+                         {# <span class="badge badge-danger rounded m-2"> {{ item }} </span> #}
+                         <a class="btn btn-primary" href="{{ url_for('Classes') }}" role="button">{{ item }} </a>
                       </div>
                   {% endfor %}
               </form>
 
-
-            {# <div class="bg-light p-4 d-flex justify-content-end text-center">
-                <ul class="list-inline mb-0">
-                    <li class="list-inline-item">
-                        <h5 class="font-weight-bold mb-0 d-block">1</h5><small class="text-muted"> <i class="fa fa-picture-o mr-1"></i>Ratings</small>
-                    </li>
-                    <li class="list-inline-item">
-                        <h5 class="font-weight-bold mb-0 d-block">1</h5><small class="text-muted"> <i class="fa fa-user-circle-o mr-1"></i>Uploads</small>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="py-4 px-4">
-                <div class="d-flex mb-3">
-                    <h5 class="mb-0">Favorive Classes</h5>
-                </div>
-
-                <div>
-                <span class="badge badge-warning">cse115a</span>
-                <span class="badge badge-danger">cse120</span>
-                </div>
-
-                <hr>
-
-            </div> #}
 
 
         </div>
