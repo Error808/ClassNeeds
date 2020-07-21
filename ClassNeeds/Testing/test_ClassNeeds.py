@@ -22,6 +22,7 @@ class BasicTests(unittest.TestCase):
  
     # executed prior to each test
     def setUp(self):
+        #print("setup")
         app.config['TESTING'] = True
         app.config['WTF_CSRF_ENABLED'] = False
         app.config['DEBUG'] = False
@@ -47,11 +48,25 @@ class BasicTests(unittest.TestCase):
     # SignUp
     ''' Tests for signing up an account. '''
     def test_valid_SignUp(self):
+        #print("valid")
         response = self.SignUp('jotywong@ucsc.edu', 'abcd')
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'Signed up successfully, please sign in.', response.data)
 
+        response = self.SignUp('jotywong@ucsc.edu', 'abcd') # second time, same email
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'This email address already exists!', response.data)
+
     ''' Tests for signing up an account with the same email. '''
+    '''def test_invalid_SignUp(self):
+        #print("invalid")
+        response = self.SignUp('jotywong@ucsc.edu', 'abcd')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Signed up successfully, please sign in.', response.data)
+
+        response = self.SignUp('jotywong@ucsc.edu', 'abcd') # second time, same email
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'This email address already exists!', response.data)'''
 
     # SignIn
     ''' Tests for signing in when already signed in. '''
