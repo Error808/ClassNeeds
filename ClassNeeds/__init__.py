@@ -571,7 +571,7 @@ def updateRatingsTableClasses(verbose=False):
         classExists = Ratings1.query.filter_by(className = classToAdd).first()
 
         if not classExists: # class already exists
-            newRating = Ratings1( rating=1, className=classToAdd, userIDsUp=[], userIDsDown=[] )
+            newRating = Ratings1( rating=0, className=classToAdd, userIDsUp=[], userIDsDown=[] )
             db.session.add(newRating)
             if verbose:
                 print("updateRatingsTableClasses: added {} to ratings table".format(classToAdd))
