@@ -185,6 +185,7 @@ def user(email):
         allFavorite=res1,
         # allFavorite = allFavorite
         classes=classes,
+        title='Profile',
         year=datetime.now().year
     )
 
