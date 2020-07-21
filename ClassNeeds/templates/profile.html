@@ -26,7 +26,7 @@
             <hr>
 
             <form class="form-inline" action="/Profile/<email>" method="post">
-                <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Select your favorite classes:</label>
+                <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Adding your favorite classes:</label>
                 <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name = "classname"> 
                     <option selected>Choose...</option>
                     {% for class in classes %}
@@ -39,11 +39,9 @@
               <hr>
               <form action="/Classes" method="post">
                   {% for item in allFavorite %}
-                      <div class="justify-content-center">
-                         {# <span class="badge badge-danger rounded m-2"> {{ item }} </span> #}
-                         {# <a class="btn btn-primary" href="{{ url_for('Classes') }}" role="button">{{ item }} </a> #}
-                         <button type="submit" name="classChoose" value="{{ item }}" class="btn btn-primary"> {{ item }} </button>
-                      </div>
+                      <i class="justify-content-center">
+                         <button type="submit" name="classChoose" value="{{ item }}" class="btn btn-primary"style="margin:5px;"> {{ item }} </button>
+                      </i>
                   {% endfor %}
               </form>
 
