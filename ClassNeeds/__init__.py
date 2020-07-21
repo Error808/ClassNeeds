@@ -165,6 +165,7 @@ def user(email):
             user=user,
             allFavorite=res,
             classes=classes,
+            title='Profile',
             year=datetime.now().year
         )
 
