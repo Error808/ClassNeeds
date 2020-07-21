@@ -1,0 +1,5 @@
+Various representations for regular languages, context-free grammars, normal forms, simple parsing, pumping lemmas, Turing machines, the Church-Turing thesis, intractable problems, the P-NP question. (Formerly CMPS 130.)
+Delbert Bailey, Patrick Tantalo, Manfred Warmuth, Allen Van Gelder, Phokion Kolaitis, David Helmbold, Seshadhri Comandur
+Fall, Winter, Spring
+5
+No

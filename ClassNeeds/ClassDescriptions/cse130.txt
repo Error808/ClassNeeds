@@ -1,0 +1,5 @@
+Covers the principles governing computer-systems design and complexity; familiarity with memory, storage, and networking; concurrency and synchronization; layering (abstraction and modularity); naming; client-server and virtualized system models; and performance. Requires significant programming projects demonstrating mastery of these concepts. (Formerly Computer Engineering 105.)
+Ethan Miller, Gabriel Elkaim, Faisal Nawab, Peter Alvaro, David Harrison
+Fall, Winter, Spring
+5
+No

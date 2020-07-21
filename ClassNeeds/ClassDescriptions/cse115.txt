@@ -1,0 +1,5 @@
+Emphasizes the characteristics of well-engineered software systems. Topics include requirements analysis and specification, design, programming, verification and validation, maintenance, and project management. Practical and research methods are studied. Imparts an understanding of the steps used to effectively develop computer software. (Formerly Computer Science 115.)
+The Staff, Jim Whitehead, Cormac Flanagan, Linda Werner, Richard Jullig, Narges Norouzi
+Fall, Winter, Spring
+5
+No
