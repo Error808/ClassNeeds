@@ -13,6 +13,7 @@
     <div class="col-xl-4 col-md-6 col-sm-10 mx-auto">
 
         <div class="bg-white shadow rounded overflow-hidden">
+
             <div class="px-4 pt-0 pb-4 bg-warning">
                 <div class="media align-items-end profile-header">
                     <div class="media-body mb-5 text-white">
@@ -21,78 +22,31 @@
                     </div><br>
                 </div>
             </div>
-            {#<form action="/Profile/<email>" method="post">
-                <p> To do list:</p>
-                <div class="form-group">
-                    <input type="class" class="form-control" name="classname">
-                </div>
-                <button type="submit" class="btn btn-warning">submit</button>
-            </form>
-            <hr>
-            <form action="/Profile/<email>" method="post">
-                {% for item in allFavorite %}
-                    <div class="justify-content-center">
-                        <span class="badge badge-danger rounded m-2"> {{ item }} </span>
-                    </div>
-                {% endfor %}
-            </form> #}
-
+        
             <hr>
 
             <form class="form-inline" action="/Profile/<email>" method="post">
                 <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Select your favorite classes:</label>
                 <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name = "classname"> 
-                  <option selected>Choose...</option>
-                  <option value="CSE101">CSE101</option>
-                  <option value="CSE102">CSE102</option>
-                  <option value="CSE103">CSE103</option>
-                  <option value="CSE104">CSE104</option>
-                  <option value="CSE120">CSE120</option>
-                  <option value="CSE130">CSE130</option>
-                  <option value="CSE180">CSE180</option>
-                  <option value="CSE140">CSE140</option>
-                  <option value="CSE144">CSE144</option>
-                  <option value="CSE150">CSE150</option>
-                  <option value="CSE181">CSE181</option>
-                  <option value="CSE183">CSE183</option>
+                    <option selected>Choose...</option>
+                    {% for class in classes %}
+                        <option value="{{ class }}">{{ class }}</option>
+                    {% endfor %}
                 </select>
                 <button type="submit" class="btn btn-primary my-1">Submit</button>
               </form>
 
               <hr>
-              <form action="/Profile/<email>" method="post">
+              <form action="/Classes" method="post">
                   {% for item in allFavorite %}
                       <div class="justify-content-center">
-                          <span class="badge badge-danger rounded m-2"> {{ item }} </span>
+                         {# <span class="badge badge-danger rounded m-2"> {{ item }} </span> #}
+                         {# <a class="btn btn-primary" href="{{ url_for('Classes') }}" role="button">{{ item }} </a> #}
+                         <button type="submit" name="classChoose" value="{{ item }}" class="btn btn-primary"> {{ item }} </button>
                       </div>
                   {% endfor %}
               </form>
 
-
-            {# <div class="bg-light p-4 d-flex justify-content-end text-center">
-                <ul class="list-inline mb-0">
-                    <li class="list-inline-item">
-                        <h5 class="font-weight-bold mb-0 d-block">1</h5><small class="text-muted"> <i class="fa fa-picture-o mr-1"></i>Ratings</small>
-                    </li>
-                    <li class="list-inline-item">
-                        <h5 class="font-weight-bold mb-0 d-block">1</h5><small class="text-muted"> <i class="fa fa-user-circle-o mr-1"></i>Uploads</small>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="py-4 px-4">
-                <div class="d-flex mb-3">
-                    <h5 class="mb-0">Favorive Classes</h5>
-                </div>
-
-                <div>
-                <span class="badge badge-warning">cse115a</span>
-                <span class="badge badge-danger">cse120</span>
-                </div>
-
-                <hr>
-
-            </div> #}
 
 
         </div>

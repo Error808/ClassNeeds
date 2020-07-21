@@ -9,7 +9,10 @@ ClassNeeds testing script
 
 import os
 import unittest
-from ClassNeeds import app # code from module you're testing
+from ClassNeeds import app, db # code from module you're testing
+
+# I (Jordan) set up a local postgres db
+LOCAL_DB_URI = 'postgres://postgres:test1234@localhost:5432' # change this as necessary
 
 class BasicTests(unittest.TestCase):
  
@@ -20,12 +23,12 @@ class BasicTests(unittest.TestCase):
     # executed prior to each test
     def setUp(self):
         app.config['TESTING'] = True
+        app.config['WTF_CSRF_ENABLED'] = False
+        app.config['DEBUG'] = False
+        app.config['SQLALCHEMY_DATABASE_URI'] = LOCAL_DB_URI 
         self.app = app.test_client()
-
-        # TODO: can I include this? this will reset the db every time
-        # so the tests have the same baseline
-        '''db.drop_all()
-        db.create_all()'''
+        db.drop_all()
+        db.create_all()
  
     # executed after each test
     def tearDown(self):
@@ -41,14 +44,12 @@ class BasicTests(unittest.TestCase):
         response = self.app.get('/', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
 
-    # Home (profile page? WIP (work in progress) )
-
     # SignUp
     ''' Tests for signing up an account. '''
-    '''def test_valid_SignUp(self):
+    def test_valid_SignUp(self):
         response = self.SignUp('jotywong@ucsc.edu', 'abcd')
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Signed up successfully, please sign in.', response.data)'''
+        self.assertIn(b'Signed up successfully, please sign in.', response.data)
 
     ''' Tests for signing up an account with the same email. '''
 
@@ -72,7 +73,14 @@ class BasicTests(unittest.TestCase):
     # Ratings
 
 
+    # Curriculum Charts
+
+
     # About
+
+
+    # Profile
+    
 
     ########################
     #### helper methods ####

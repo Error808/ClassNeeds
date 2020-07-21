@@ -6,7 +6,6 @@ from flask import Flask
 app = Flask(__name__)
 app.secret_key = "super secret key"
 
-from markupsafe import escape
 
 """
 The flask application package.
@@ -19,6 +18,7 @@ from flask_sqlalchemy import SQLAlchemy
 from io import BytesIO
 from flask_login import LoginManager, UserMixin, login_user,login_required, logout_user, current_user
 from sqlalchemy import func
+from markupsafe import escape
 
 #from ClassNeeds import app
 
@@ -49,7 +49,6 @@ class Users(UserMixin, db.Model):
     password = db.Column(db.String(120))
     favorite = db.Column(db.ARRAY(db.String(120)))
 
-
 # table for reviews
 class Ratings1(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -64,6 +63,12 @@ class Comments(db.Model):
     className = db.Column(db.String(300))
     comment = db.Column(db.String(500))
 
+# table for BSOE flowcharts
+class Charts(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(300))
+    data = db.Column(db.LargeBinary)
+
 #creates the table
 db.create_all()
 
@@ -73,21 +78,6 @@ def load_user(user_id):
     return Users.query.get(int(user_id))
 
 
-
-
-@app.route('/Home', methods = ['GET'])
-def Home():
-    if current_user.is_anonymous:
-        flash('Please sign in or sign up first :)')
-        return redirect (url_for('ClassNeeds'))
-
-    if request.method == 'GET':
-        return render_template(
-        'home.html',
-        userE = current_user.email
-       
-    )
-       
 
 @app.route('/SignUp' , methods = ['GET', 'POST'])
 def SignUp():
@@ -145,7 +135,7 @@ def SignIn():
 def SignOut():
     if current_user.is_anonymous:
         flash('You are not signed in!')
-        return redirect (url_for('SignUp'))
+        return redirect (url_for('SignIn'))
     logout_user()
     flash('You signed out successfully.')
     return redirect(url_for('ClassNeeds'))
@@ -154,6 +144,8 @@ def SignOut():
 @login_required
 def user(email):
     user = Users.query.filter_by(email=current_user.email).first()
+    classes = getClasses()
+
     if request.method == 'POST':
         favorite1 = request.form['classname']
         Users.query.filter_by(email=current_user.email).update({
@@ -171,9 +163,10 @@ def user(email):
         return render_template(
             'profile.html',
             user=user,
-            allFavorite = res
+            allFavorite=res,
+            classes=classes,
+            year=datetime.now().year
         )
-
 
     allFavorite = []
     allFavorite = current_user.favorite
@@ -189,10 +182,10 @@ def user(email):
     return render_template(
         'profile.html',
         user=user,
-        allFavorite = res1,
+        allFavorite=res1,
         # allFavorite = allFavorite
+        classes=classes,
         year=datetime.now().year
-
     )
 
 @app.route('/Profile/')
@@ -261,8 +254,7 @@ def Classes():
     if request.method == 'POST':
 
         data = request.form['classChoose']
-
-    
+        
         classes = getClasses() # helper function below
         
         if data in classes:
@@ -322,39 +314,42 @@ def Classes():
                 units = units,
                 lab = lab
             )
-        # else:
-            # TODO: if the class doesn't exist, maybe display another page?
-            # although at the moment we control what classes can be passed in as 'data'
+        else: # if the class doesn't exist within the classes.txt file
+            flash('Could not find the specified class.')
+            return ReturnClassesPage()
  
     elif request.method == 'GET':
-        classes = getClasses()
+        return ReturnClassesPage()
 
-        # divide the classes into rows of 4
-        classesDivided = []
-        classRow = []
-        col = 0
-        for c in classes:
-            if col == 4: # the number per row
-                col = 0
-                classesDivided.append(classRow.copy()) # add row to classesDivided
-                classRow = []                          # reset the row object
-            
-            classRow.append(c) # add the class to a row
-            col += 1
-        
-        return render_template(
-            'classes.html',
-            title='Classes',
-            year=datetime.now().year,
-            message='classes should show here',
-            classes=classesDivided
-        )
+def ReturnClassesPage():
+    '''
+    helper function for Classes()
+    '''
+    classes = getClasses()
+
+    # divide the classes into rows of 4
+    classesDivided = []
+    classRow = []
+    col = 0
+    for c in classes:
+        classRow.append(c) # add the class to a row
+        col += 1
+
+        if col == 4: # the number per row
+            col = 0
+            classesDivided.append(classRow.copy()) # add row to classesDivided
+            classRow = []                          # reset the row object
+    
+    return render_template(
+        'classes.html',
+        title='Classes',
+        year=datetime.now().year,
+        message='classes should show here',
+        classes=classesDivided
+    )
 
 @app.route('/Ratings', methods = ['GET', 'POST'])
 def Ratings():
-    if current_user.is_anonymous:
-        flash('Please sign in or sign up first :)')
-        return redirect (url_for('ClassNeeds'))
     """Renders the Ratings page."""
 
     if current_user.is_anonymous:
@@ -485,6 +480,33 @@ def ratingsSortHelper(element):
     '''
     return element['rating']
 
+@app.route('/Download_Chart/<int:id>', methods=['GET'])
+def Download_Chart(id):
+    item = Charts().query.filter_by(id=id).first()
+    return send_file(BytesIO(item.data), as_attachment = True, attachment_filename = item.name)
+
+@app.route('/Curriculum_Charts')
+def Curriculum_Charts():
+    """Renders the Curriculum_Charts page."""
+    if current_user.is_anonymous:
+        flash('Please sign in or sign up first :)')
+        return redirect (url_for('ClassNeeds'))
+
+    return ReturnChartsPage()
+
+def ReturnChartsPage():
+    '''
+    helper function for Curriculum_Charts()
+    '''
+    charts = Charts().query.all()
+
+    return render_template(
+        'curriculumCharts.html',
+        title='Curriculum Charts',
+        charts=charts,
+        year=datetime.now().year
+    )
+
 @app.route('/About')
 def About():
     """Renders the About page."""
@@ -505,11 +527,7 @@ def Upload():
     db.session.add(newFile)
     db.session.commit()
 
-    return render_template(
-            'classes.html',
-            year=datetime.now().year,
-            message='classes should show here'
-        )
+    return ReturnClassesPage() # helper function right under Classes()
 
 @app.route('/UploadComment', methods = ['POST'])
 def UploadComment():
@@ -520,11 +538,17 @@ def UploadComment():
     db.session.add(newComment)
     db.session.commit()
     
-    return render_template(
-            'classes.html',
-            year=datetime.now().year,
-            message='classes should show here'
-        )
+    return ReturnClassesPage() # helper function right under Classes()
+
+@app.route('/Upload_Chart', methods = ['POST'])
+def Upload_Chart():
+    file = request.files['inputFile']
+
+    newChart = Charts( name=file.filename, data=file.read())
+    db.session.add(newChart)
+    db.session.commit()
+    
+    return ReturnChartsPage()
 
 
 def getClasses():
