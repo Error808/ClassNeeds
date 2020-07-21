@@ -16,3 +16,12 @@ Categorization of the classes based on the ratings of the users. Ratings represe
 Who are we and why did we make the website.
 ## Sign In/ Sign Out: 
 Users must sign in to be able to access Home, Classes, and Ratings page.
+## Libraries used:
+Jinja2==2.10.1
+gunicorn==20.0.4
+Flask==1.1.2
+SQLAlchemy==1.3.12
+Flask-SQLAlchemy==2.4.3
+Werkzeug==1.0.1
+psycopg2==2.8.5
+flask-login==0.5.0
