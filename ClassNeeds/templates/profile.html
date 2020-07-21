@@ -1,54 +1,54 @@
 {% extends "layout.html" %}
 
 {% block content %}
+<div class="row">
+    <div class="col-md-3 mx-auto text-warning text-center pt-5">
+        <h1 class="display-4">Welcome, {{ user.email }}</h1>
+        <a class="btn btn-link text-link" href="{{ url_for('Reset', email=current_user.email) }}" role="button">Reset password?</a>
+    </div>
+</div>
 
-<h1 class="text-center text-warning" style="margin-top: 70px">Welcome</h1>
 
 <div class="row py-5 px-4">
-    <div class="col-xl-4 col-md-6 col-sm-10 mx-auto ">
+    <div class="col-xl-4 col-md-6 col-sm-10 mx-auto">
 
-        <div class="bg-white shadow rounded overflow-hidden p-2">
+        <div class="bg-white shadow rounded overflow-hidden">
 
             <div class="px-4 pt-0 pb-4 bg-warning">
                 <div class="media align-items-end profile-header">
-                    <div class="media-body mb-5 text-white text-center">
+                    <div class="media-body mb-5 text-white">
                         <br>
                         <h1 class="mt-0 mb-0">{{ user.email }}</h1>
-                    </div>
-                    <br>
+                    </div><br>
                 </div>
             </div>
-
+        
             <hr>
 
             <form class="form-inline" action="/Profile/<email>" method="post">
-
-                <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Pick a class to favorite it:</label>
-                <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="classname">
-                    <option selected>Choose...</option>
+                <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Adding your favorite classes:</label>
+                <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name = "classname"> 
+                    {#<option selected>Choose...</option>#}
                     {% for class in classes %}
-                    <option value="{{ class }}">{{ class }}</option>
+                        <option value="{{ class }}">{{ class }}</option>
                     {% endfor %}
                 </select>
                 <button type="submit" class="btn btn-primary my-1">Submit</button>
-            </form>
+              </form>
 
-            <hr>
-            <form action="/Classes" method="post">
-                {% for item in allFavorite %}
-                <i class="justify-content-center">
-                    <button type="submit" name="classChoose" value="{{ item }}" class="btn btn-primary" style="margin:5px;"> {{ item }} </button>
-                </i>
-                {% endfor %}
-            </form>
+              <hr>
+              <form action="/Classes" method="post">
+                  {% for item in allFavorite %}
+                      <i class="justify-content-center">
+                         <button type="submit" name="classChoose" value="{{ item }}" class="btn btn-primary"style="margin:5px;"> {{ item }} </button>
+                      </i>
+                  {% endfor %}
+              </form>
+              <hr>
+
 
         </div>
 
     </div>
 </div>
-
-<div class="container text-center">
-    <a class="btn btn-link text-warning" href="{{ url_for('Reset', email=current_user.email) }}" role="button">Reset password?</a>
-</div>
-
 {% endblock %}
