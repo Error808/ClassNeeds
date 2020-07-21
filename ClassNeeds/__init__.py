@@ -455,13 +455,13 @@ def Ratings():
     classRow = []
     col = 0
     for classAndRating in zip(classes,ratings):
+        classRow.append(classAndRating)  # add the class to a row
+        col += 1
+
         if col == 4: # the number per row
             col = 0
             classesDivided.append(classRow.copy()) # add row to classesDivided
             classRow = []                          # reset the row object
-        
-        classRow.append(classAndRating)  # add the class to a row
-        col += 1
 
     # currently assumes strings are being passed in for classes
     return render_template(
