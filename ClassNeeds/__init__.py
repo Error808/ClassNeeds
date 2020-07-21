@@ -560,7 +560,7 @@ def getClasses():
     classes = open("ClassNeeds/classes.txt", "r") # reads in from specific txt
     return classes.read().split("\n")             # splits the data by \n
 
-def updateRatingsTableClasses():
+def updateRatingsTableClasses(verbose=False):
     '''
     Reads in classes from classes.txt and verifies they're in the database.
     '''
@@ -572,8 +572,9 @@ def updateRatingsTableClasses():
         if not classExists: # class already exists
             newRating = Ratings1( rating=1, className=classToAdd, userIDsUp=[], userIDsDown=[] )
             db.session.add(newRating)
-            print("updateRatingsTableClasses: added {} to ratings table".format(classToAdd))
+            if verbose:
+                print("updateRatingsTableClasses: added {} to ratings table".format(classToAdd))
         
     db.session.commit()
 
-updateRatingsTableClasses()
+updateRatingsTableClasses(verbose=True)
