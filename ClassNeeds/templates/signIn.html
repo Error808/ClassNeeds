@@ -5,20 +5,31 @@
     <h1 class="text-center m-5 text-warning">Sign In </h1>
 
 
-    <div class="container " >
+    <div class="container ">
 
-        
-        <form action="/SignIn" method="post">
-            <div class="form-group">
-                <input type="email" class="form-control" name="user" aria-describedby="emailHelp" placeholder="Enter email" required>
-            </div>
-            <div class="form-group">
-                <input type="password" class="form-control" name="passW" placeholder="Password" required>
-            </div>
-            <button type="submit" class="btn btn-warning">Sign in</button>
-            <a class="btn btn-link text-warning" href="SignUp" role="button">New Account</a>
-        </form>
+        <div class="row">
+            <div class="col-md-4">
 
+            </div>
+
+            <div class="col-md-4">
+
+                <form action="/SignIn" method="post">
+                    <div class="form-group">
+                        <input type="email" class="form-control" name="user" aria-describedby="emailHelp" placeholder="Enter email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="passW" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn btn-warning">Sign in</button>
+                    <a class="btn btn-link text-warning" href="SignUp" role="button">New Account</a>
+                </form>
+
+            </div>
+            <div class="col-md-4">
+
+            </div>
+        </div>
     </div>
 
-{% endblock %}
+            {% endblock %}
