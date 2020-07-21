@@ -144,6 +144,8 @@ def SignOut():
 @login_required
 def user(email):
     user = Users.query.filter_by(email=current_user.email).first()
+    classes = getClasses()
+
     if request.method == 'POST':
         favorite1 = request.form['classname']
         Users.query.filter_by(email=current_user.email).update({
@@ -161,9 +163,10 @@ def user(email):
         return render_template(
             'profile.html',
             user=user,
-            allFavorite = res
+            allFavorite=res,
+            classes=classes,
+            year=datetime.now().year
         )
-
 
     allFavorite = []
     allFavorite = current_user.favorite
@@ -179,10 +182,10 @@ def user(email):
     return render_template(
         'profile.html',
         user=user,
-        allFavorite = res1,
+        allFavorite=res1,
         # allFavorite = allFavorite
+        classes=classes,
         year=datetime.now().year
-
     )
 
 @app.route('/Profile/')
@@ -251,7 +254,7 @@ def Classes():
     if request.method == 'POST':
 
         data = request.form['classChoose']
-    
+        
         classes = getClasses() # helper function below
         
         if data in classes:
@@ -276,6 +279,26 @@ def Classes():
             for comment in comments:
                 commentList.append(comment)
 
+            className = data;
+            className = className.replace(" ","");
+            className = className.lower();
+            className = "ClassNeeds/ClassDescriptions/" + className + ".txt";
+
+            try:
+                classTxt = open(className, "r");
+                description = classTxt.readline();
+                profs = classTxt.readline();
+                quarters = classTxt.readline();
+                units = classTxt.readline();
+                lab = classTxt.readline();
+                classTxt.close();
+            except: 
+                description = "Nothing Found";
+                profs = "Nothing Found";
+                quarters = "Nothing Found";
+                units = "Nothing Found";
+                lab = "Nothing Found";
+
             return render_template(
                 'classDetails.html',
                 message = data,
@@ -284,11 +307,16 @@ def Classes():
                 syllabuses = syllabuses,
                 pExams = pExams,
                 pHomeworks = pHomeworks,
-                commentList = commentList
+                commentList = commentList,
+                description = description,
+                profs = profs,
+                quarters = quarters,
+                units = units,
+                lab = lab
             )
-        # else:
-            # TODO: if the class doesn't exist, maybe display another page?
-            # although at the moment we control what classes can be passed in as 'data'
+        else: # if the class doesn't exist within the classes.txt file
+            flash('Could not find the specified class.')
+            return ReturnClassesPage()
  
     elif request.method == 'GET':
         return ReturnClassesPage()
@@ -304,13 +332,13 @@ def ReturnClassesPage():
     classRow = []
     col = 0
     for c in classes:
+        classRow.append(c) # add the class to a row
+        col += 1
+
         if col == 4: # the number per row
             col = 0
             classesDivided.append(classRow.copy()) # add row to classesDivided
             classRow = []                          # reset the row object
-        
-        classRow.append(c) # add the class to a row
-        col += 1
     
     return render_template(
         'classes.html',
@@ -460,6 +488,9 @@ def Download_Chart(id):
 @app.route('/Curriculum_Charts')
 def Curriculum_Charts():
     """Renders the Curriculum_Charts page."""
+    if current_user.is_anonymous:
+        flash('Please sign in or sign up first :)')
+        return redirect (url_for('ClassNeeds'))
 
     return ReturnChartsPage()
 
@@ -496,11 +527,7 @@ def Upload():
     db.session.add(newFile)
     db.session.commit()
 
-    return render_template(
-            'classes.html',
-            year=datetime.now().year,
-            message='classes should show here'
-        )
+    return ReturnClassesPage() # helper function right under Classes()
 
 @app.route('/UploadComment', methods = ['POST'])
 def UploadComment():
@@ -533,7 +560,7 @@ def getClasses():
     classes = open("ClassNeeds/classes.txt", "r") # reads in from specific txt
     return classes.read().split("\n")             # splits the data by \n
 
-def updateRatingsTableClasses():
+def updateRatingsTableClasses(verbose=False):
     '''
     Reads in classes from classes.txt and verifies they're in the database.
     '''
@@ -545,8 +572,9 @@ def updateRatingsTableClasses():
         if not classExists: # class already exists
             newRating = Ratings1( rating=1, className=classToAdd, userIDsUp=[], userIDsDown=[] )
             db.session.add(newRating)
-            print("updateRatingsTableClasses: added {} to ratings table".format(classToAdd))
+            if verbose:
+                print("updateRatingsTableClasses: added {} to ratings table".format(classToAdd))
         
     db.session.commit()
 
-updateRatingsTableClasses()
+updateRatingsTableClasses(verbose=True)

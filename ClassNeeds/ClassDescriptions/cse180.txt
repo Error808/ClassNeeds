@@ -1,0 +1,5 @@
+Introduction to the concepts, approaches, tools, and methodology of database design. Covers the entity-relationship model, the relational model, relational algebra, relational calculus, commercial languages (such as SQL and QBE), functional dependencies, normal forms, and design theory. Other topics may include knowledge-bases, constraint databases, and alternative database models. Students that have taken and passed CSE 182 may not take CSE 180 for credit. (Formerly CMPS 180.)
+The Staff
+Fall, Winter
+5
+No

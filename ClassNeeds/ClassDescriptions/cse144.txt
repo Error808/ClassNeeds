@@ -1,0 +1,5 @@
+Provides a practical and project-oriented introduction to machine learning, with an emphasis on neural networks and deep learning. Starts with a discussion of the foundational pieces of statistical inference, then introduces the basic elements of machine learning: loss functions and gradient descent. Using these, presents logistic regression, or one-layer networks, and then moves on to more complex models: deep neural networks, convolutional networks for image recognition, and recurrent networks and LSTM for temporal and sequence data. Also covers the basics of dataset preparation and visualization and the performance characterization of the models created. Includes weekly homework and a final project that can be done in groups. (Formerly CMPS 144.)
+Luca De Alfaro, Narges Norouzi, Benedict Paten, Josh Stuart, David Haussler
+Winter, Spring
+5
+No
