@@ -17,7 +17,7 @@ Who are we and why did we make the website.
 ## Sign In/ Sign Out: 
 Users must sign in to be able to access Home, Classes, and Ratings page.
 ## Demo: 
-Users can get a demo of the site without sign up.
+Users can get a demo of the site without signing up.
 ## Libraries used:
 <li> Jinja2==2.10.1 </li>
 <li> gunicorn==20.0.4 </li>
