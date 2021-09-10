@@ -131,6 +131,14 @@ def SignIn():
         year=datetime.now().year
     )
 
+@app.route('/Demo')
+def Demo():
+    user = Users.query.filter_by(email="demo@demo").first()
+    login_user(user)
+    flash('Signed in as a demo user.')
+    return redirect(url_for('ClassNeeds'))
+
+
 @app.route('/SignOut')
 def SignOut():
     if current_user.is_anonymous:
