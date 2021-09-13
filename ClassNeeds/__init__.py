@@ -132,15 +132,12 @@ def SignIn():
         year=datetime.now().year
     )
 
-    # id = db.Column(db.Integer, primary_key=True)
-    # email = db.Column(db.String(80), unique=True)
-    # password = db.Column(db.String(120))
-    # favorite = db.Column(db.ARRAY(db.String(120)))
+
 
 @app.route('/Demo')
 def Demo():
     if current_user.is_authenticated:
-        flash('You are already signed in as a Demo User!')
+        flash('You are already signed in')
         return redirect (url_for('ClassNeeds'))
     else:
         user = Users.query.filter_by(email="Demo User").first()
