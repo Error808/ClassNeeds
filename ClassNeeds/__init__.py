@@ -2,6 +2,7 @@
 The flask application package.
 """
 
+import os
 from flask import Flask
 app = Flask(__name__)
 app.secret_key = "super secret key"
@@ -27,7 +28,7 @@ import ClassNeeds.config
 
 
 #location of the database
-app.config['SQLALCHEMY_DATABASE_URI'] =  "postgres://vmnwaguqhuxhiy:9a7a8ca0bf1cff4890d9f56a298ae099d1a22a0fe8b6d423d3895e0902ec97af@ec2-54-175-117-212.compute-1.amazonaws.com:5432/dff5amlfes2k69"
+app.config['SQLALCHEMY_DATABASE_URI'] =  os.environ['DATABASE_URL']
 
 db = SQLAlchemy(app)
 
@@ -131,12 +132,25 @@ def SignIn():
         year=datetime.now().year
     )
 
+    # id = db.Column(db.Integer, primary_key=True)
+    # email = db.Column(db.String(80), unique=True)
+    # password = db.Column(db.String(120))
+    # favorite = db.Column(db.ARRAY(db.String(120)))
+
 @app.route('/Demo')
 def Demo():
-    user = Users.query.filter_by(email="demo@demo").first()
-    login_user(user)
-    flash('Signed in as a demo user.')
-    return redirect(url_for('ClassNeeds'))
+    if current_user.is_authenticated:
+        flash('You are already signed in as a Demo User!')
+        return redirect (url_for('ClassNeeds'))
+    else:
+        user = Users.query.filter_by(email="Demo User").first()
+        user.favorite=""
+        db.session.commit()
+        login_user(user)
+        flash('Signed in as a demo user.')
+        return redirect(url_for('ClassNeeds'))
+   
+    
 
 
 @app.route('/SignOut')
