@@ -156,7 +156,7 @@ def SignOut():
         flash('You are not signed in!')
         return redirect (url_for('SignIn'))
     logout_user()
-    flash('You signed out successfully.')
+    flash('You signed out successfully!')
     return redirect(url_for('ClassNeeds'))
 
 @app.route('/Profile/<email>', methods = ['GET', 'POST'])
