@@ -144,7 +144,7 @@ def Demo():
         user.favorite=""
         db.session.commit()
         login_user(user)
-        flash('Signed in as a demo user.')
+        flash('Signed in as a Demo User.')
         return redirect(url_for('ClassNeeds'))
    
     
