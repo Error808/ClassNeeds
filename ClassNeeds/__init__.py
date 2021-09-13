@@ -140,7 +140,7 @@ def Demo():
         flash('You are already signed in')
         return redirect (url_for('ClassNeeds'))
     else:
-        user = Users.query.filter_by(email="Demo User").first()
+        user = Users.query.filter_by(email='Demo User').first()
         user.favorite=""
         db.session.commit()
         login_user(user)
