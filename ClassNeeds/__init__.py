@@ -269,7 +269,7 @@ def Download(id):
 def Classes():
 
     if current_user.is_anonymous:
-        flash('Please sign in or sign up first :)')
+        flash('Please sign in or sign up first.')
         return redirect (url_for('ClassNeeds'))
 
     if request.method == 'POST':
