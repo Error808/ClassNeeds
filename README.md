@@ -19,11 +19,10 @@ Users must sign in to be able to access Home, Classes, and Ratings page.
 ## Demo: 
 Users can get a demo of the site without signing up.
 ## Libraries used:
-<li> Jinja2==2.10.1 </li>
-<li> gunicorn==20.0.4 </li>
-<li> Flask==1.1.2 </li>
-<li> SQLAlchemy==1.3.12 </li>
-<li> Flask-SQLAlchemy==2.4.3 </li>
-<li> Werkzeug==1.0.1 </li>
-<li> psycopg2==2.8.5 </li>
-<li> flask-login==0.5.0 </li>
+<li> </li>
+<li> Flask</li>
+<li> SQLAlchemy</li>
+<li> Flask-SQLAlchemy</li>
+<li> Werkzeug</li>
+<li> psycopg2</li>
+<li> flask-login</li>
