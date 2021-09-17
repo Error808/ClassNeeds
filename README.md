@@ -26,4 +26,3 @@ Users can get a demo of the site without signing up.
 <li> Werkzeug</li>
 <li> psycopg2</li>
 <li> flask-login</li>
-
