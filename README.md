@@ -19,7 +19,6 @@ Users must sign in to be able to access Home, Classes, and Ratings page.
 ## Demo: 
 Users can get a demo of the site without signing up.
 ## Libraries used:
-<li> </li>
 <li> Flask</li>
 <li> SQLAlchemy</li>
 <li> Flask-SQLAlchemy</li>
